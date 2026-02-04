@@ -16,24 +16,39 @@ public class UniversityService {
 
         fi.getDepartments().add(se);
         university.getFaculties().add(fi);
+
+        Faculty fen = new Faculty("FEN");
+        Department ma = new Department("Marketing");
+
+        fen.getDepartments().add(ma);
+        university.getFaculties().add(fen);
+    }
+
+    public List<Faculty> getFaculties() {
+        return university.getFaculties();
     }
 
 
     /** * =====   WORK WITH STUDENTS  ===== * **/
-    // Adding a student
     public void addStudent(String name, int course, int group) {
-        Student newStudent = new Student(name, course, group);
-
-        // Deciding where to sign (first Faculty and first Department)
         if (!university.getFaculties().isEmpty() &&
                 !university.getFaculties().get(0).getDepartments().isEmpty()) {
 
-            university.getFaculties().get(0)
-                    .getDepartments().get(0)
-                    .getStudents().add(newStudent);
+            Faculty defaultFaculty = university.getFaculties().get(0);
+            Department defaultDept = defaultFaculty.getDepartments().get(0);
+
+            Student newStudent = new Student(name, course, group,
+                    defaultFaculty.getName(),
+                    defaultDept.getName());
+
+            defaultDept.getStudents().add(newStudent);
         } else {
             System.out.println("Error: No department found to add student!");
         }
+    }
+
+    public void addStudentToDepartment(Student student, Department department) {
+        department.getStudents().add(student);
     }
 
     /** ===== SEARCH ===== **/

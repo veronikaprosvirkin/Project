@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -23,21 +24,31 @@ public class Main {
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1" -> {   //? Creating a student
+                case "1" -> {
+                    // Select faculty
+                    Faculty selectedFaculty = selectFaculty(scanner, service);
+                    if (selectedFaculty == null) break;
+
+                    // Select department
+                    Department selectedDepartment = selectDepartment(scanner, selectedFaculty);
+                    if (selectedDepartment == null) break;
+
+                    // Student's info
                     System.out.print("Name: ");
                     String name = scanner.nextLine();
-
-                    // Ask again if blank
                     while (name.isBlank()) {
                         System.out.print("Name cannot be empty. Enter Name: ");
                         name = scanner.nextLine();
                     }
-
-                    int course = readInt(scanner, "Enter Course: ", 1, 6);
+                    int course = readInt(scanner, "Enter Course (1-6): ", 1, 6);
                     int group = readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
 
-                    service.addStudent(name, course, group);
-                    System.out.println("Student added!");
+                    // Save
+                    Student s = new Student(name, course, group,
+                            selectedFaculty.getName(),
+                            selectedDepartment.getName());
+                    service.addStudentToDepartment(s, selectedDepartment);
+                    System.out.println("Student added to " + selectedDepartment.getName());
                 }
                 case "2" -> {   //? Search by name
                     System.out.println("1. Find Student\n2. Find Teacher");
@@ -81,17 +92,76 @@ public class Main {
 
 
 
-    // Helper method to loop until user enters a valid number
+    // * ===== METHODS HELPERS ===== * //
+
+    /**
+     * ? Method that checks if the line is an Integer between min and max values
+     * @param scanner
+     * @param prompt
+     * @param min
+     * @param max
+     * @return int
+     */
     private static int readInt(Scanner scanner, String prompt, int min, int max) {
         while (true) {
             System.out.print(prompt);
             String input = scanner.nextLine();
             try {
                 int intInput = Integer.parseInt(input);
-                if (intInput < min || intInput > max) {return intInput;}
+                if (intInput >= min && intInput <= max) {
+                    return intInput;
+                }
+                // Describe error
+                if (min == Integer.MIN_VALUE && max != Integer.MAX_VALUE) {
+                    System.out.println("Error: Number must be less than or equal to " + max + "!");
+                } else if (min != Integer.MIN_VALUE && max == Integer.MAX_VALUE) {
+                    System.out.println("Error: Number must be more than or equal to " + min + "!");
+                } else {
+                    System.out.println("Error: Number must be between " + min + " and " + max + "!");
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Please enter a valid number.");
             }
         }
+    }
+
+    /**
+     * ? Faculty selection
+     * @param scanner
+     * @param service
+     * @return
+     */
+    private static Faculty selectFaculty(Scanner scanner, UniversityService service) {
+        List<Faculty> faculties = service.getFaculties();
+        if (faculties.isEmpty()) {
+            System.out.println("No faculties available!");
+            return null;
+        }
+        System.out.println("--- Choose Faculty ---");
+        for (int i = 0; i < faculties.size(); i++) {
+            System.out.println((i + 1) + ". " + faculties.get(i).getName());
+        }
+        int index = readInt(scanner, "Enter Faculty number: ", 1, faculties.size()) - 1;
+        return faculties.get(index);
+    }
+
+    /**
+     * ? Department selection
+     * @param scanner
+     * @param faculty
+     * @return
+     */
+    private static Department selectDepartment(Scanner scanner, Faculty faculty) {
+        List<Department> departments = faculty.getDepartments();
+        if (departments.isEmpty()) {
+            System.out.println("No departments in this faculty!");
+            return null;
+        }
+        System.out.println("--- Choose Department ---");
+        for (int i = 0; i < departments.size(); i++) {
+            System.out.println((i + 1) + ". " + departments.get(i).getName());
+        }
+        int index = readInt(scanner, "Enter Department number: ", 1, departments.size()) - 1;
+        return departments.get(index);
     }
 }

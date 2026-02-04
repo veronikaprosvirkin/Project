@@ -25,4 +25,6 @@ public class Department {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+
+    public String getName() { return nameOfDepartment; }
 }

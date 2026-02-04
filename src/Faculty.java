@@ -16,4 +16,6 @@ public class Faculty {
     public void setDepartments(List<Department> departments) {
         this.departments = departments;
     }
+
+    public String getName() { return nameOfFaculty; }
 }
