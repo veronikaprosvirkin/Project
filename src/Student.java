@@ -5,8 +5,8 @@ public class Student extends Person {
     private String speciality;
 
     // Update constructor to accept context
-    public Student(String name, int course, int group, String faculty, String speciality) {
-        super(name);
+    public Student(String name, String surname, int course, int group, String faculty, String speciality) {
+        super(name, surname);
         this.course = course;
         this.group = group;
         this.faculty = faculty;

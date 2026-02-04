@@ -7,17 +7,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         // Creating few students
-        service.addStudent("Zbyshek Tymekowskych", 1, 101);
-        service.addStudent("Irzek Zlotych", 1, 101);
+        service.addStudent("Zbyshek", "Tymekowskych", 1, 101);
+        service.addStudent("Irzek", "Zlotych", 1, 101);
+        service.addStudent("Irzek", "Tymekowskych", 2, 15);
 
         while (true) {
             System.out.println("\n--- DigiUni (Hierarchical) ---");
             System.out.println("1. Add Student");
             System.out.println("2. Find by Name");
-            System.out.println("3. Find by Group");
-            System.out.println("4. Find by Course");
-            System.out.println("5. Show All Students");
-            System.out.println("6. Add Teacher ");
+            System.out.println("3. Find by Surname");
+            System.out.println("4. Find by Group");
+            System.out.println("5. Find by Course");
+            System.out.println("6. Show All Students");
+            System.out.println("7. Add Teacher ");
             System.out.println("0. Exit");
             System.out.print("> ");
 
@@ -36,6 +38,8 @@ public class Main {
                     // Student's info
                     System.out.print("Name: ");
                     String name = scanner.nextLine();
+                    System.out.print("Surname: ");
+                    String surname = scanner.nextLine();
                     while (name.isBlank()) {
                         System.out.print("Name cannot be empty. Enter Name: ");
                         name = scanner.nextLine();
@@ -44,7 +48,8 @@ public class Main {
                     int group = readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
 
                     // Save
-                    Student s = new Student(name, course, group,
+
+                    Student s = new Student(name, surname, course, group,
                             selectedFaculty.getName(),
                             selectedSpeciality.getName());
                     service.addStudentToDepartment(s, selectedSpeciality);
@@ -64,23 +69,30 @@ public class Main {
                         service.findTeachersByName(q).forEach(System.out::println);
                     }
                 }
-                case "3" -> {   //? Search by group
+                case "3" -> { //? Search by surname
+                    System.out.print("Enter surname part: ");
+                    String q = scanner.nextLine();
+                    service.findStudentsBySurname(q).forEach(System.out::println);
+                }
+                case "4" -> {   //? Search by group
                     System.out.print("Group: ");
                     int g = readInt(scanner, "Enter Course: ", 1, Integer.MAX_VALUE);
                     service.findStudentsByGroup(g).forEach(System.out::println);
                 }
-                case "4" -> {   //? Search by course
+                case "5" -> {   //? Search by course
                     System.out.print("Course: ");
                     int c = readInt(scanner, "Enter Course: ", 1, 6);
                     service.findStudentsByCourse(c).forEach(System.out::println);
                 }
-                case "5" -> service.getAllStudents().forEach(System.out::println);   //? Print all students
-                case "6" -> {   //? Create a teacher
+                case "6" -> service.getAllStudents().forEach(System.out::println);   //? Print all students
+                case "7" -> {   //? Create a teacher
                     System.out.print("Teacher Name: ");
                     String name = scanner.nextLine();
+                    System.out.print("Teacher Surname: ");
+                    String surname = scanner.nextLine();
                     System.out.print("Position: ");
                     String pos = scanner.nextLine();
-                    service.addTeacher(name, pos);
+                    service.addTeacher(name,surname, pos);
                     System.out.println("Teacher added!");
                 }
                 case "0" -> { return; }     //? Stop the program

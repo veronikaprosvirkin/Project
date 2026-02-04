@@ -200,14 +200,14 @@ public class UniversityService {
 
 
     /** * =====   WORK WITH STUDENTS  ===== * **/
-    public void addStudent(String name, int course, int group) {
+    public void addStudent(String name, String surname, int course, int group) {
         if (!university.getFaculties().isEmpty() &&
                 !university.getFaculties().get(0).getSpeciality().isEmpty()) {
 
             Faculty defaultFaculty = university.getFaculties().get(0);
             Speciality defaultSpec = defaultFaculty.getSpeciality().get(0);
 
-            Student newStudent = new Student(name, course, group,
+            Student newStudent = new Student(name,surname, course, group,
                     defaultFaculty.getName(),
                     defaultSpec.getName());
 
@@ -256,6 +256,21 @@ public class UniversityService {
         return result;
     }
 
+    // Search by surname
+    public List<Student> findStudentsBySurname(String surname) {
+        List<Student> result = new ArrayList<>();
+        for (Faculty faculty : university.getFaculties()) {
+            for (Speciality spec : faculty.getSpeciality()) {
+                for (Student s : spec.getStudents()) {
+                    if (s.getSurname().equalsIgnoreCase(surname)) {
+                        result.add(s);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     // Search by group
     public List<Student> findStudentsByGroup(int group) {
         List<Student> result = new ArrayList<>();
@@ -296,13 +311,13 @@ public class UniversityService {
 
     /** * =====   WORK WITH TEACHERS  ===== * **/
     // Adding a teacher
-    public void addTeacher(String name, String position) {
+    public void addTeacher(String name, String surname, String position) {
         if (!university.getFaculties().isEmpty() &&
                 !university.getFaculties().get(0).getDepartments().isEmpty()) {
             // Deciding where to sign (first Faculty and first Department)
             university.getFaculties().get(0)
                     .getDepartments().get(0)
-                    .getTeachers().add(new Teacher(name, position));
+                    .getTeachers().add(new Teacher(name, surname, position));
         }
     }
 
