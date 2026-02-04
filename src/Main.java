@@ -35,6 +35,9 @@ public class Main {
 
                     int course = readInt(scanner, "Enter Course: ");
                     int group = readInt(scanner, "Enter Group: ");
+
+                    service.addStudent(name, course, group);
+                    System.out.println("Student added!");
                 }
                 case "2" -> {   //? Search by name
                     System.out.println("1. Find Student\n2. Find Teacher");
