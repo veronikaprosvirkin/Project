@@ -5,4 +5,6 @@ class Teacher extends Person {
         super(name);
         this.position = position;
     }
+
+    public String getPosition() {return position;}
 }
