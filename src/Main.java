@@ -29,9 +29,9 @@ public class Main {
                     Faculty selectedFaculty = selectFaculty(scanner, service);
                     if (selectedFaculty == null) break;
 
-                    // Select department
-                    Department selectedDepartment = selectDepartment(scanner, selectedFaculty);
-                    if (selectedDepartment == null) break;
+                    // Select speciality
+                    Speciality selectedSpeciality = selectDepartment(scanner, selectedFaculty);
+                    if (selectedSpeciality == null) break;
 
                     // Student's info
                     System.out.print("Name: ");
@@ -46,9 +46,9 @@ public class Main {
                     // Save
                     Student s = new Student(name, course, group,
                             selectedFaculty.getName(),
-                            selectedDepartment.getName());
-                    service.addStudentToDepartment(s, selectedDepartment);
-                    System.out.println("Student added to " + selectedDepartment.getName());
+                            selectedSpeciality.getName());
+                    service.addStudentToDepartment(s, selectedSpeciality);
+                    System.out.println("Student added to " + selectedSpeciality.getName());
                 }
                 case "2" -> {   //? Search by name
                     System.out.println("1. Find Student\n2. Find Teacher");
@@ -151,17 +151,17 @@ public class Main {
      * @param faculty
      * @return
      */
-    private static Department selectDepartment(Scanner scanner, Faculty faculty) {
-        List<Department> departments = faculty.getDepartments();
-        if (departments.isEmpty()) {
+    private static Speciality selectDepartment(Scanner scanner, Faculty faculty) {
+        List<Speciality> specialities = faculty.getSpeciality();
+        if (specialities.isEmpty()) {
             System.out.println("No departments in this faculty!");
             return null;
         }
         System.out.println("--- Choose Department ---");
-        for (int i = 0; i < departments.size(); i++) {
-            System.out.println((i + 1) + ". " + departments.get(i).getName());
+        for (int i = 0; i < specialities.size(); i++) {
+            System.out.println((i + 1) + ". " + specialities.get(i).getName());
         }
-        int index = readInt(scanner, "Enter Department number: ", 1, departments.size()) - 1;
-        return departments.get(index);
+        int index = readInt(scanner, "Enter Department number: ", 1, specialities.size()) - 1;
+        return specialities.get(index);
     }
 }

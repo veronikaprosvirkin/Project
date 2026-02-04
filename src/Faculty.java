@@ -3,10 +3,15 @@ import java.util.List;
 
 public class Faculty {
     private String nameOfFaculty;
+    private List<Speciality> speciality = new ArrayList<>();
     private List<Department> departments = new ArrayList<>();
 
     public Faculty(String nameOfFaculty) {
         this.nameOfFaculty = nameOfFaculty;
+    }
+
+    public List<Speciality> getSpeciality() {
+        return speciality;
     }
 
     public List<Department> getDepartments() {
@@ -15,6 +20,10 @@ public class Faculty {
 
     public void setDepartments(List<Department> departments) {
         this.departments = departments;
+    }
+
+    public void setSpeciality(List<Speciality> specialities) {
+        this.speciality = specialities;
     }
 
     public String getName() { return nameOfFaculty; }
