@@ -37,17 +37,20 @@ public class Main {
                     // Student's info
                     System.out.print("Name: ");
                     String name = scanner.nextLine();
+                    while (name.isBlank()) {
+                        System.out.print("Name cannot be empty. Enter name: ");
+                        name = scanner.nextLine();
+                    }
                     System.out.print("Surname: ");
                     String surname = scanner.nextLine();
-                    while (name.isBlank()) {
-                        System.out.print("Name cannot be empty. Enter Name: ");
-                        name = scanner.nextLine();
+                    while (surname.isBlank()) {
+                        System.out.print("Surname cannot be empty. Enter surname: ");
+                        surname = scanner.nextLine();
                     }
                     int course = readInt(scanner, "Enter Course (1-6): ", 1, 6);
                     int group = readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
 
                     // Save
-
                     Student s = new Student(name, surname, course, group,
                             selectedFaculty.getName(),
                             selectedSpeciality.getName());
