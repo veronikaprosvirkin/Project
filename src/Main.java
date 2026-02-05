@@ -35,8 +35,8 @@ public class Main {
                     if (selectedSpeciality == null) break;
 
                     // Student's info
-                    String name = readNotEmptyLine(scanner, "Name: ");
-                    String surname = readNotEmptyLine(scanner, "Surname: ");
+                    String name = readLine(scanner, "Name: ", true);
+                    String surname = readLine(scanner, "Surname: ", true);
                     int course = readInt(scanner, "Enter Course (1-6): ", 1, 6);
                     int group = readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
 
@@ -74,9 +74,9 @@ public class Main {
                 }
                 case "5" -> service.getAllStudents().forEach(System.out::println);   //? Print all students
                 case "6" -> {   //? Create a teacher
-                    String name = readNotEmptyLine(scanner, "Teacher name: ");
-                    String surname = readNotEmptyLine(scanner, "Teacher Surname: ");
-                    String pos = readNotEmptyLine(scanner, "Position: ");
+                    String name = readLine(scanner, "Teacher name: ", true);
+                    String surname = readLine(scanner, "Teacher Surname: ", true);
+                    String pos = readLine(scanner, "Position: ", true);
                     service.addTeacher(name,surname, pos);
                     System.out.println("Teacher added!");
                 }
@@ -128,13 +128,15 @@ public class Main {
      * @param prompt
      * @return
      */
-    private static String readNotEmptyLine(Scanner scanner, String prompt) {
+    private static String readLine(Scanner scanner, String prompt, boolean mustBeNotEmpty) {
         System.out.print(prompt);
         String line = scanner.nextLine();
-        while (line.isBlank()) {
-            System.out.println("Field cannot be empty!");
-            System.out.print(prompt);
-            line = scanner.nextLine();
+        if (mustBeNotEmpty) {
+            while (line.isBlank()) {
+                System.out.println("Field cannot be empty!");
+                System.out.print(prompt);
+                line = scanner.nextLine();
+            }
         }
         return line;
     }
