@@ -422,6 +422,7 @@ public class UniversityService {
     public void addNewFaculty(String name) {
         if (isNameDuplicate(university.getFaculties(), name, Faculty::getName)) {
             System.out.println("Error: Faculty with name '" + name + "' already exists.");
+            return;
         }
         university.getFaculties().add(new Faculty(name));
         System.out.println("Faculty added successfully.");
@@ -434,4 +435,14 @@ public class UniversityService {
     public void deleteDepartment(Department selectedDept, Faculty selectedFaculty) {
         selectedFaculty.getDepartments().remove(selectedDept);
     }
+
+    public void editFacultyName(Faculty faculty, String newName) {
+        if (isNameDuplicate(university.getFaculties(), newName, Faculty::getName)) {
+            System.out.println("Error: Faculty with name '" + newName + "' already exists.");
+            return;
+        }
+        faculty.setName(newName);
+        System.out.println("Faculty name updated successfully to: " + newName);
+    }
+
 }

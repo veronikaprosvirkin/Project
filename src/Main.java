@@ -13,7 +13,7 @@ public class Main {
 
         while (true) {
             System.out.println("\n--- DigiUni (Hierarchical) ---");
-            System.out.println("1. Work with Faculties"); //logic written, not finished realization
+            System.out.println("1. Work with Faculties"); // finished
             System.out.println("2. Work with Departments"); //logic written, not finished realization
             System.out.println("3. Work with Specialities"); //logic written, not finished realization
             System.out.println("4. Work with Students"); //logic written, not finished realization
@@ -21,18 +21,6 @@ public class Main {
             System.out.println("6. Search");
             System.out.println("0. Exit");
             System.out.print("> ");
-
-            /* System.out.println("1. Add Student");
-
-            System.out.println("2. Find by Full Name");
-
-            System.out.println("3. Find by Group");
-
-            System.out.println("4. Find by Course");
-
-            System.out.println("5. Show All Students");
-
-            System.out.println("6. Add Teacher "); */
 
             String choice = scanner.nextLine();
 
@@ -45,9 +33,8 @@ public class Main {
                     System.out.println("1. Add Faculty");
                     System.out.println("2. Delete Faculty");
                     System.out.println("3. Edit Faculty");
-                    System.out.println("4. Show all");
                     System.out.println("0. Back");
-                    int workWithFaculty = readInt(scanner, "Enter number of operation: ", 0, 4);
+                    int workWithFaculty = readInt(scanner, "Enter number of operation: ", 0, 3);
                     if (workWithFaculty ==1){ //add faculty
                         String name = readLine(scanner,"Enter new Faculty name: ", true);
                         service.addNewFaculty(name);
@@ -63,8 +50,9 @@ public class Main {
                             System.out.println("Operation cancelled.");
                         }
 
-                    } else if (workWithFaculty == 3) {
-                        //edit faculty
+                    } else if (workWithFaculty == 3) { //edit faculty name
+                        String newName = readLine(scanner,"Enter new Faculty name: ", true);
+                        service.editFacultyName(selectedFaculty, newName);
                     }
                     else {
                         break;

@@ -27,4 +27,7 @@ public class Faculty {
     }
 
     public String getName() { return nameOfFaculty; }
+
+    public void setName(String newName) {
+    }
 }
