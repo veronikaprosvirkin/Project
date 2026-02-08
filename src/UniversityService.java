@@ -444,5 +444,8 @@ public class UniversityService {
         faculty.setName(newName);
         System.out.println("Faculty name updated successfully to: " + newName);
     }
+    public List<Teacher> getTeachersByDepartment(Department department) {
+        return department.getTeachers();
+    }
 
 }

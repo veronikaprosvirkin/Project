@@ -110,8 +110,14 @@ public class Main {
                             System.out.println("Operation cancelled.");
                         }
 
-                    } else if (workWithDepartment == 3) {
-                        //Show all teachers in the department
+                    } else if (workWithDepartment == 3) { //show all teachers in the department
+                            List<Teacher> teachers = service.getTeachersByDepartment(selectedDept);
+                            if (teachers.isEmpty()) {
+                                System.out.println("There are no teachers assigned to " + selectedDept.getName() + " yet.");
+                            } else {
+                                System.out.println("\n--- Teachers in " + selectedDept.getName() + " ---");
+                                teachers.forEach(System.out::println);
+                        }
                     }
                     else {
                         break;
@@ -143,43 +149,6 @@ public class Main {
                         break;
                     }
 
-
-
-                    /*
-                    System.out.println("1. Find in specific speciality");
-                    System.out.println("2. Find in all university");
-
-                    int type = readInt(scanner, "> ", 1, 2);
-
-                    if (type == 1) {    // Search in specific speciality
-
-                        Faculty selectedFaculty = selectFaculty(scanner, service);
-                        if (selectedFaculty == null) break;
-
-                        Speciality selectedSpeciality = selectDepartments(scanner, selectedFaculty);
-                        if (selectedSpeciality == null) break;
-
-                        int groupNumber = readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
-
-                        List<Student> results = service.findStudentsInSpecialityByGroup(selectedSpeciality, groupNumber);
-
-                        if (results.isEmpty()) {
-                            System.out.println("No students found in group " + groupNumber + " within " + selectedSpeciality.getName());
-                        } else {
-                            results.forEach(System.out::println);
-                        }
-                    }
-                    else {      // Search in all university
-                        int groupNumber = readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
-
-                        List<Student> results = service.findStudentsByGroup(groupNumber);
-
-                        if (results.isEmpty()) {
-                            System.out.println("No students found in group " + groupNumber + " in the whole university.");
-                        } else {
-                            results.forEach(System.out::println);
-                        }
-                    }*/
                 }
                 case "4" -> {// Work with students
                     System.out.println("1. Add Student");
