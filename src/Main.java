@@ -14,7 +14,7 @@ public class Main {
         while (true) {
             System.out.println("\n--- DigiUni (Hierarchical) ---");
             System.out.println("1. Work with Faculties"); // finished
-            System.out.println("2. Work with Departments"); //logic written, not finished realization
+            System.out.println("2. Work with Departments"); //finished
             System.out.println("3. Work with Specialities"); //logic written, not finished realization
             System.out.println("4. Work with Students"); //logic written, not finished realization
             System.out.println("5. Work with Teachers");
