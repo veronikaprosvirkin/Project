@@ -370,7 +370,7 @@ public class Main {
         // Save
         Student s = new Student(name, surname, course, groupNumber,
                 selectedFaculty.getName(),
-                selectedSpeciality.getName());
+                selectedSpeciality);
         service.addStudentToSpeciality(s, selectedSpeciality, groupNumber);
 
         System.out.println("Student " + name + " added to group " + groupNumber +
@@ -380,7 +380,7 @@ public class Main {
     /** Delete the Student by name */
     private static void studentDeleteByName(Scanner scanner, UniversityService service){
         System.out.print("Enter full name part: ");
-        String fullName = InputUtils.readLine(scanner, "Name: ", false, true);
+        String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, true);
         List<Student> result = service.findStudentsByFullName(fullName);
 
         if (result.isEmpty()) {
@@ -397,7 +397,7 @@ public class Main {
                 if (index == 0) {return;}
 
                 Student student = result.get(index - 1);
-                service.deleteStudent(student);   // NOT FINISHED METHOD
+                service.deleteStudent(student, student.getSpeciality());
             }
         }
     }

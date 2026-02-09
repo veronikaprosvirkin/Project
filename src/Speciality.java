@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Speciality {
     private String nameOfSpeciality;
     private List<Group> groups = new ArrayList<>();
+
 
     public List<Group> getGroups() {
         return groups;
@@ -19,4 +21,5 @@ public class Speciality {
 
     public String getName() { return nameOfSpeciality; }
     public void setName(String name) { this.nameOfSpeciality = name; }
+
 }

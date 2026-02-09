@@ -227,7 +227,7 @@ public class UniversityService {
 
             Student newStudent = new Student(name, surname, course, groupNumber,
                     defaultFaculty.getName(),
-                    defaultSpec.getName());
+                    defaultSpec);
 
             targetGroup.getStudents().add(newStudent);
             System.out.println("Student added to group " + groupNumber);
@@ -295,8 +295,21 @@ public class UniversityService {
     }
 
     // delete student
-    public void deleteStudent(Student student) {
-        // NOT FINISHED METHOD
+    public void deleteStudent(Student student, Speciality speciality) {
+        boolean removed = false;
+        for (Group group : speciality.getGroups()) {
+            if (group.getStudents().remove(student)) {
+                removed = true;
+                System.out.println("Removed from group " + group.getGroupNumber());
+                break;
+            }
+        }
+
+        if (removed) {
+            System.out.println("Student " + student.getFullName() + " deleted successfully.");
+        } else {
+            System.out.println("Error: Student not found in any group of " + speciality.getName());
+        }
     }
 
 
