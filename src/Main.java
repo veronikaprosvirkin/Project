@@ -25,39 +25,43 @@ public class Main {
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    // Work with faculties
-                    Faculty selectedFaculty = selectFaculty(scanner, service);
-                    if (selectedFaculty == null) break;
-
+                case "1" -> { // Work with faculties
                     System.out.println("1. Add Faculty");
-                    System.out.println("2. Delete Faculty");
-                    System.out.println("3. Edit Faculty");
-                    System.out.println("0. Back");
-                    int workWithFaculty = InputUtils.readInt(scanner, "> ", 0, 3);
-                    if (workWithFaculty ==1){ //add faculty
-                        String name = InputUtils.readLine(scanner,"Enter new Faculty name: ", false, true);
+                    System.out.println("2. Manage Existing Faculty");
+
+                    int action = InputUtils.readInt(scanner, "> ", 1, 2);
+
+                    if (action == 1) {
+                        String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
                         service.addNewFaculty(name);
-                    } else if (workWithFaculty == 2) { //delete faculty
-                        System.out.println("Choose faculty to delete:");
-                        Faculty selectedFacultyToDelete = selectFaculty(scanner, service);
-                        System.out.println("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
-                        if (scanner.nextLine().toLowerCase().startsWith("y")) {
-                            service.deleteFaculty(selectedFacultyToDelete);
-                            System.out.println("Faculty deleted successfully!");
+                    } else if (action == 2) { //manage existing faculties
+
+                        System.out.println("1. Delete Faculty");
+                        System.out.println("2. Edit Faculty");
+                        System.out.println("0. Back");
+                        int workWithFaculty = InputUtils.readInt(scanner, "> ", 0, 2);
+                        if (workWithFaculty == 1) { //delete faculty
+                            System.out.println("Choose faculty to delete:");
+                            Faculty selectedFacultyToDelete = selectFaculty(scanner, service);
+                            System.out.println("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
+                            if (scanner.nextLine().toLowerCase().startsWith("y")) {
+                                service.deleteFaculty(selectedFacultyToDelete);
+                                System.out.println("Faculty deleted successfully!");
+                            } else {
+                                System.out.println("Operation cancelled.");
+                            }
+                        } else if (workWithFaculty == 2) { //edit faculty name
+                            System.out.println("Choose faculty to edit:");
+                            Faculty selectedFaculty = selectFaculty(scanner, service);
+                            String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
+                            service.editFacultyName(selectedFaculty, newName);
                         }
                         else {
-                            System.out.println("Operation cancelled.");
+                            break;
                         }
-
-                    } else if (workWithFaculty == 3) { //edit faculty name
-                        String newName = InputUtils.readLine(scanner,"Enter new Faculty name: ", false, true);
-                        service.editFacultyName(selectedFaculty, newName);
-                    }
-                    else {
-                        break;
                     }
                 }
+
 
 
                 case "2" -> {// Work with departments
