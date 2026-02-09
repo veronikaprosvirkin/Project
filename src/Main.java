@@ -47,69 +47,39 @@ public class Main {
                 }
 
 
-
                 case "2" -> {// Work with departments
                     System.out.println("1. Add Department");
                     System.out.println("2. Manage Existing Department");
-                    int action = InputUtils.readInt(scanner, "> ", 1, 2);
+                    System.out.println("0. Back");
+                    int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) { // add a new department
-                        System.out.println("Choose faculty in which department will be added:");
-                        Faculty selectedFaculty = selectFaculty(scanner, service);
-                        if (selectedFaculty != null) {
-                            String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
-                            service.addNewDepartment(name, selectedFaculty);
-                            System.out.println("Department created successfully!");
-                        }
-                        else {
-                            System.out.println("No faculties found. Please add a new one first.");
-                        }
-
+                        departmentAddDepartment(scanner, service);
                     } else if (action ==2) { // manage existing department
+                        System.out.println("Choose faculty: ");
+                        Faculty selectedFaculty = selectFaculty(scanner, service);
+                        if (selectedFaculty == null) break;
 
-                    System.out.println("Choose faculty: ");
-                    Faculty selectedFaculty = selectFaculty(scanner, service);
-                    if (selectedFaculty == null) break;
+                        System.out.println("Choose department: ");
+                        Department selectedDept = selectDepartment(scanner, selectedFaculty);
+                        if (selectedDept == null) break;
 
-                    System.out.println("Choose department: ");
-                    Department selectedDept = selectDepartment(scanner, selectedFaculty);
-                    if (selectedDept == null) break;
+                        //Work with a selected department
+                        System.out.println("\nDepartment: " + selectedDept.getName());
+                        System.out.println("1. Edit name of the Department");
+                        System.out.println("2. Delete Department");
+                        System.out.println("3. Show all Teachers in the Department");
+                        System.out.println("0. Back");
 
-                    //Work with a selected department
-                    System.out.println("\nDepartment: " + selectedDept.getName());
-                    System.out.println("1. Edit name of the Department");
-                    System.out.println("2. Delete Department");
-                    System.out.println("3. Show all Teachers in the Department");
-                    System.out.println("0. Back");
+                        int workWithDepartment = InputUtils.readInt(scanner, "> ", 0, 3);
 
-                    int workWithDepartment = InputUtils.readInt(scanner, "> ", 0, 3);
-
-                    if (workWithDepartment ==1){ // edit department name
-                        String editName = InputUtils.readLine(scanner,"Write new name for chosen department: ", false, true);
-                       service.editDepartmentName(selectedDept, editName, selectedFaculty);
-
-                    } else if (workWithDepartment == 2) { //delete department
-                        System.out.print("Are you sure you want ot delete " + selectedDept.getName() + "? (y/n): ");
-                        if (scanner.nextLine().toLowerCase().startsWith("y")) {
-                            service.deleteDepartment(selectedDept, selectedFaculty);
-                            System.out.println("Faculty deleted successfully!");
+                        if (workWithDepartment ==1){ // edit department name
+                            departmentRenameDepartment(scanner, service, selectedDept, selectedFaculty);
+                        } else if (workWithDepartment == 2) { //delete department
+                            departmentDeleteDepartment(scanner, service, selectedDept, selectedFaculty);
+                        } else if (workWithDepartment == 3) { //show all teachers in the department
+                            departmentShowTeachers(service, selectedDept);
                         }
-                        else {
-                            System.out.println("Operation cancelled.");
-                        }
-
-                    } else if (workWithDepartment == 3) { //show all teachers in the department
-                            List<Teacher> teachers = service.getTeachersByDepartment(selectedDept);
-                            if (teachers.isEmpty()) {
-                                System.out.println("There are no teachers assigned to " + selectedDept.getName() + " yet.");
-                            } else {
-                                System.out.println("\n--- Teachers in " + selectedDept.getName() + " ---");
-                                teachers.forEach(System.out::println);
-                        }
-                    }
-                    else {
-                        break;
-                    }
                     }
                 }
                 case "3" -> {   //? Edit speciality
@@ -413,6 +383,7 @@ public class Main {
     }
 
     // * ===== METHODS SEPARATED FOR EVERY ACTION ===== * //
+
     //! ======= WORK WITH FACULTY ===== //
     /** Add new Faculty */
     private static void facultyAddFaculty(Scanner scanner, UniversityService service) {
@@ -439,6 +410,52 @@ public class Main {
         Faculty selectedFaculty = selectFaculty(scanner, service);
         String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
         service.editFacultyName(selectedFaculty, newName);
+    }
+
+
+    //! ======= WORK WITH DEPARTMENT ===== //
+    /** Add new Department */
+    private static void departmentAddDepartment(Scanner scanner, UniversityService service){
+        System.out.println("Choose faculty in which department will be added:");
+        Faculty selectedFaculty = selectFaculty(scanner, service);
+        if (selectedFaculty != null) {
+            String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
+            service.addNewDepartment(name, selectedFaculty);
+            System.out.println("Department created successfully!");
+        }
+        else {
+            System.out.println("No faculties found. Please add a new one first.");
+        }
+    }
+
+
+    /** Rename new Department */
+    private static void departmentRenameDepartment(Scanner scanner, UniversityService service, Department selectedDept, Faculty selectedFaculty) {
+        String editName = InputUtils.readLine(scanner,"Write new name for chosen department: ", false, true);
+        service.editDepartmentName(selectedDept, editName, selectedFaculty);
+    }
+
+    /** Delete the Department */
+    private static void departmentDeleteDepartment(Scanner scanner, UniversityService service,  Department selectedDept,  Faculty selectedFaculty) {
+        System.out.print("Are you sure you want ot delete " + selectedDept.getName() + "? (y/n): ");
+        if (scanner.nextLine().toLowerCase().startsWith("y")) {
+            service.deleteDepartment(selectedDept, selectedFaculty);
+            System.out.println("Faculty deleted successfully!");
+        }
+        else {
+            System.out.println("Operation cancelled.");
+        }
+    }
+
+    /** Show all teachers in the Department */
+    private static void departmentShowTeachers(UniversityService service,  Department selectedDept){
+        List<Teacher> teachers = service.getTeachersByDepartment(selectedDept);
+        if (teachers.isEmpty()) {
+            System.out.println("There are no teachers assigned to " + selectedDept.getName() + " yet.");
+        } else {
+            System.out.println("\n--- Teachers in " + selectedDept.getName() + " ---");
+            teachers.forEach(System.out::println);
+        }
     }
 
     // * ===== METHODS HELPERS ===== * //
