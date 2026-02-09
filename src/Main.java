@@ -206,55 +206,22 @@ public class Main {
                         int searchBy = InputUtils.readInt(scanner, "> ", 0, 4);
 
                         if (searchBy == 1) { //by full name
-                            String name = InputUtils.readLine(scanner, "Enter full name: ", false, true);
-                            List<Student> result = service.findStudentsByFullName(name);
-                            if (result.isEmpty()) {
-                                System.out.println("No students found with this name.");
-                            } else {
-                                result.forEach(System.out::println);
-                            }
+                            searchStudentByName(scanner, service);
                         }
                         else if (searchBy == 2) { //by group number
-
                             System.out.println("1. Find in specific speciality");
                             System.out.println("2. Find in all university");
-
                             int type = InputUtils.readInt(scanner, "> ", 1, 2);
 
                             if (type == 1) {    // Search in specific speciality
-
-                                Faculty selectedFaculty = selectFaculty(scanner, service);
-                                if (selectedFaculty == null) break;
-
-                                Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
-                                if (selectedSpeciality == null) break;
-
-                                int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
-
-                                List<Student> results = service.findStudentsInSpecialityByGroup(selectedSpeciality, groupNumber);
-
-                                if (results.isEmpty()) {
-                                    System.out.println("No students found in group " + groupNumber + " within " + selectedSpeciality.getName());
-                                } else {
-                                    results.forEach(System.out::println);
-                                }
+                                searchStudentByGroupSpecific(scanner, service);
+                            } else {      // Search in all university
+                                searchStudentByGroupEverywhere(scanner, service);
                             }
-                            else {      // Search in all university
-                                int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
-
-                                List<Student> results = service.findStudentsByGroup(groupNumber);
-
-                                if (results.isEmpty()) {
-                                    System.out.println("No students found in group " + groupNumber + " in the whole university.");
-                                } else {
-                                    results.forEach(System.out::println);
-                                }
-                            }
-                            } else if (searchBy == 3) { //by course
-                                int course = InputUtils.readInt(scanner, "Enter course number: ", 1, 6);
-                                List<Student> results = service.findStudentsByCourse(course);
+                        } else if (searchBy == 3) { //by course
+                            searchStudentByCourse(scanner, service);
                         } else if (searchBy == 4) { // by speciality
-                            //not finished
+                            searchStudentBySpeciality(scanner, service);
                         }
 
                     } else if (searchType == 2) { //Find Teacher
@@ -265,13 +232,12 @@ public class Main {
 
                         int searchBy = InputUtils.readInt(scanner, "> ", 0, 3);
                         if (searchBy == 1){
-                            //search by full name
+                            searchTeacherByName(scanner, service);
                         } else if (searchBy == 2) {
-
+                            searchTeacherByDepartment(scanner, service);
+                        } else  if (searchBy == 3) {
+                            searchTeacherByPosition(scanner, service);
                         }
-
-
-
                     }
 
                 }
@@ -563,7 +529,84 @@ public class Main {
         }
     }
 
+    //! ======= SEARCH ===== //
+    /** Search Student by full name */
+    private static void searchStudentByName(Scanner scanner, UniversityService service){
+        String name = InputUtils.readLine(scanner, "Enter full name: ", false, true);
+        List<Student> result = service.findStudentsByFullName(name);
+        if (result.isEmpty()) {
+            System.out.println("No students found with this name.");
+        } else {
+            System.out.println(" --- Students found by name part: "+name+" ---");
+            result.forEach(System.out::println);
+        }
+    }
 
+    /** Search Student by group in specific Speciality */
+    private static void searchStudentByGroupSpecific(Scanner scanner, UniversityService service){
+        Faculty selectedFaculty = selectFaculty(scanner, service);
+        if (selectedFaculty == null) return;
+
+        Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
+        if (selectedSpeciality == null) return;
+
+        int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
+
+        List<Student> results = service.findStudentsInSpecialityByGroup(selectedSpeciality, groupNumber);
+
+        if (results.isEmpty()) {
+            System.out.println("No students found in group " + groupNumber + " within " + selectedSpeciality.getName());
+        } else {
+            System.out.println(" --- Students in group " + groupNumber + " on " + selectedSpeciality.getName() + " ---");
+            results.forEach(System.out::println);
+        }
+    }
+
+    /** Search Student by group in the whole Univercity */
+    private static void searchStudentByGroupEverywhere(Scanner scanner, UniversityService service){
+        int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
+
+        List<Student> results = service.findStudentsByGroup(groupNumber);
+
+        if (results.isEmpty()) {
+            System.out.println("No students found in group " + groupNumber + " in the whole university.");
+        } else {
+            System.out.println(" --- Students in group " + groupNumber + " ---");
+            results.forEach(System.out::println);
+        }
+    }
+
+    /** Search Student by course */
+    private static void searchStudentByCourse(Scanner scanner, UniversityService service){
+        int course = InputUtils.readInt(scanner, "Enter course number: ", 1, 6);
+        List<Student> results = service.findStudentsByCourse(course);
+        if (results.isEmpty()) {
+            System.out.println("No students found in course " + course + ".");
+        } else {
+            System.out.println(" --- Students in course " + course + " ---");
+            results.forEach(System.out::println);
+        }
+    }
+
+    /** Search Student by speciality */
+    private static void searchStudentBySpeciality(Scanner scanner, UniversityService service){
+        // NOT FINISHED
+    }
+
+    /** Search Teacher by full name */
+    private static void searchTeacherByName(Scanner scanner, UniversityService service){
+        // NOT FINISHED
+    }
+
+    /** Search Teacher by department */
+    private static void searchTeacherByDepartment(Scanner scanner, UniversityService service){
+        // NOT FINISHED
+    }
+
+    /** Search Teacher by position */
+    private static void searchTeacherByPosition(Scanner scanner, UniversityService service){
+        // NOT FINISHED
+    }
 
 
 
