@@ -1,8 +1,8 @@
 
 public class Person {
-    private final String name;
-    private final String surname;
-    private final String fullName;
+    private String name;
+    private String surname;
+    private String fullName;
 
     public Person(String name, String surname) {
         this.name = name;
@@ -15,6 +15,12 @@ public class Person {
     public String getFullName() {return fullName;}
 
     public void setSurname(String newSurname) {
+        this.surname = newSurname;
+        this.fullName = newSurname + " " + name;
+    }
 
+    public void setName(String newName) {
+        this.name = newName;
+        this.fullName = surname + " " + newName;
     }
 }

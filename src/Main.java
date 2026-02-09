@@ -186,7 +186,7 @@ public class Main {
                             teacherEditByName(scanner, service);
                         }
                         else if (editTeacher == 2){
-                            teacherDeleteById(scanner, service);
+                            teacherEditById(scanner, service);
                         }
                     } else if (workWithTeacher == 4) { //show all
                         teacherShowAll(service);
@@ -361,8 +361,8 @@ public class Main {
 
 
         // Student's info
-        String name = InputUtils.readLine(scanner, "Name: ", false, false);
-        String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
+        String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false));
+        String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false));
         int course = InputUtils.readInt(scanner, "Enter Course (1-6): ", 1, 6);
         int groupNumber = InputUtils.readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
 
@@ -428,24 +428,30 @@ public class Main {
 
                 System.out.println("\nEditing student: " + student.getFullName());
                 System.out.println("1. Change Surname");
-                System.out.println("2. Change Course");
-                System.out.println("3. Change Group");
+                System.out.println("2. Change Name");
+                System.out.println("3. Change Course");
+                System.out.println("4. Change Group");
                 System.out.println("0. Cancel");
 
-                int fieldChoice = InputUtils.readInt(scanner, "> ", 0, 3);
+                int fieldChoice = InputUtils.readInt(scanner, "> ", 0, 4);
 
                 switch (fieldChoice) {
                     case 1 -> {
-                        String newSurname = InputUtils.readLine(scanner, "Enter new surname: ", false, false);
+                        String newSurname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new surname: ", false, false));
                         student.setSurname(newSurname);
                         System.out.println("Surname updated!");
                     }
                     case 2 -> {
+                        String newName = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new name: ", false, false));
+                        student.setName(newName);
+                        System.out.println("Name updated!");
+                    }
+                    case 3 -> {
                         int newCourse = InputUtils.readInt(scanner, "Enter new course (1-6): ", 1, 6);
                         student.setCourse(newCourse);
                         System.out.println("Course updated!");
                     }
-                    case 3 -> {
+                    case 4 -> {
                         int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
                         //not finished
                         service.moveStudentToGroup(student, newGroup);
@@ -485,8 +491,8 @@ public class Main {
 
 
         // Teachers's info
-        String name = InputUtils.readLine(scanner, "Name: ", false, false);
-        String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
+        String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false));
+        String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false));
         String position = InputUtils.readLine(scanner, "Position: ", false, true);
 
 
