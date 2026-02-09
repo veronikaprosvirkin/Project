@@ -275,6 +275,13 @@ public class Main {
                             break;
                         }
 
+                    } else if (workWithStudent == 4) {
+                        List<Student> result = service.getAllStudents();
+                        if (result.isEmpty()) {
+                            System.out.println("No students found");
+                        } else {
+                            result.forEach(System.out::println);
+                        }
                     }
 
                 }
