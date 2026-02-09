@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class UniversityService {
@@ -464,6 +465,7 @@ public class UniversityService {
             return;
         }
         selectedFaculty.getDepartments().add(new Department(newDepartmentName));
+        System.out.println("Department created successfully!");
     }
 
     public void editDepartmentName(Department dept, String editName, Faculty faculty) {
@@ -475,7 +477,7 @@ public class UniversityService {
         dept.setName(editName);
         System.out.println("Department name updated successfully to: " + editName);
     }
-    private <T> boolean isNameDuplicate(List<T> list, String newName, java.util.function.Function<T, String> nameExtractor) {
+    private <T> boolean isNameDuplicate(Collection<T> list, String newName, java.util.function.Function<T, String> nameExtractor) {
         return list.stream()
                 .anyMatch(item -> nameExtractor.apply(item).equalsIgnoreCase(newName));
     }
@@ -490,10 +492,26 @@ public class UniversityService {
                 .anyMatch(d -> d.getName().equalsIgnoreCase(newSpecialityName));
 
         if (exists) {
-            System.out.println("Error: Department with this name already exists!");
+            System.out.println("Error: Speciality with this name already exists!");
             return;
         }
         selectedFaculty.getSpeciality().add(new Speciality(newSpecialityName));
+        System.out.println("Speciality created successfully!");
+    }
+
+    public void editSpecialityName(Speciality speciality, String editName, Faculty faculty) {
+        if (isNameDuplicate(faculty.getSpeciality(), editName, Speciality::getName)) {
+            System.out.println("Error: Department with name '" + editName + "' already exists on this faculty.");
+            return;
+        }
+
+        speciality.setName(editName);
+        System.out.println("Department name updated successfully to: " + editName);
+    }
+
+
+    public void deleteSpeciality(Speciality selectedSpeciality, Faculty selectedFaculty) {
+        selectedFaculty.getSpeciality().remove(selectedSpeciality);
     }
 
 }

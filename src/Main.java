@@ -101,9 +101,9 @@ public class Main {
 
                         int workWithSpeciality = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (workWithSpeciality == 1) {
-                            //rename speciality
+                            specialityRenameSpeciality(scanner, service, selectedSpeciality, selectedFaculty);
                         } else if (workWithSpeciality == 2) {
-                            //delete speciality
+                            specialityDeleteSpeciality(scanner, service, selectedSpeciality, selectedFaculty);
                         }
                     }
 
@@ -421,16 +421,15 @@ public class Main {
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
             service.addNewDepartment(name, selectedFaculty);
-            System.out.println("Department created successfully!");
         }
         else {
             System.out.println("No faculties found. Please add a new one first.");
         }
     }
 
-    /** Rename new Department */
+    /** Rename the Department */
     private static void departmentRenameDepartment(Scanner scanner, UniversityService service, Department selectedDept, Faculty selectedFaculty) {
-        String editName = InputUtils.readLine(scanner,"Write new name for chosen department: ", false, true);
+        String editName = InputUtils.readLine(scanner,"Write new name for " + selectedDept.getName() + ": ", false, true);
         service.editDepartmentName(selectedDept, editName, selectedFaculty);
     }
 
@@ -439,7 +438,7 @@ public class Main {
         System.out.print("Are you sure you want ot delete " + selectedDept.getName() + "? (y/n): ");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
             service.deleteDepartment(selectedDept, selectedFaculty);
-            System.out.println("Faculty deleted successfully!");
+            System.out.println("Department deleted successfully!");
         }
         else {
             System.out.println("Operation cancelled.");
@@ -465,12 +464,29 @@ public class Main {
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Speciality name: ", false, true);
             service.addNewSpeciality(name, selectedFaculty);
-            System.out.println("Speciality created successfully!");
         }
         else {
             System.out.println("No faculties found. Please add a new one first.");
         }
     }
+
+    /** Rename the Speciality */
+    private static void specialityRenameSpeciality(Scanner scanner, UniversityService service, Speciality selectedSpeciality, Faculty selectedFaculty) {
+        String editName = InputUtils.readLine(scanner,"Write new name for " + selectedSpeciality.getName() + ": ", false, true);
+        service.editSpecialityName(selectedSpeciality, editName, selectedFaculty);
+    }
+
+    /** Delete the Speciality */
+    private static void specialityDeleteSpeciality(Scanner scanner, UniversityService service,  Speciality selectedSpeciality,  Faculty selectedFaculty) {
+        System.out.print("Are you sure you want ot delete " + selectedSpeciality.getName() + "? (y/n): ");
+        if (scanner.nextLine().toLowerCase().startsWith("y")) {
+            service.deleteSpeciality(selectedSpeciality, selectedFaculty);
+            System.out.println("Speciality deleted successfully!");
+        } else {
+            System.out.println("Operation cancelled.");
+        }
+    }
+
 
     // * ===== METHODS HELPERS ===== * //
 
