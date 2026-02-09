@@ -476,12 +476,14 @@ public class Main {
         for (int i = 0; i < faculties.size(); i++) {
             System.out.println((i + 1) + ". " + faculties.get(i).getName());
         }
-        int index = InputUtils.readInt(scanner, "> ", 1, faculties.size()) - 1;
-        return faculties.get(index);
+        System.out.println("0. Cancel");
+        int index = InputUtils.readInt(scanner, "> ", 0, faculties.size());
+        if (index == 0) {return null;}
+        return faculties.get(index-1);
     }
 
     /**
-     * ? Department selection
+     * ? Speciality selection
      * @param scanner provided
      * @param faculty provided
      * @return Speciality
@@ -496,8 +498,10 @@ public class Main {
         for (int i = 0; i < specialities.size(); i++) {
             System.out.println((i + 1) + ". " + specialities.get(i).getName());
         }
-        int index = InputUtils.readInt(scanner, "> ", 1, specialities.size()) - 1;
-        return specialities.get(index);
+        System.out.println("0. Cancel");
+        int index = InputUtils.readInt(scanner, "> ", 0, specialities.size());
+        if (index == 0) {return null;}
+        return specialities.get(index-1);
     }
 
     /**
@@ -519,12 +523,10 @@ public class Main {
         for (int i = 0; i < departments.size(); i++) {
             System.out.println((i + 1) + ". " + departments.get(i).getName());
         }
+        System.out.println("0. Cancel");
 
-
-        int index = InputUtils.readInt(scanner, "Enter department number (0 to cancel): ", 0, departments.size());
-
+        int index = InputUtils.readInt(scanner, "> ", 0, departments.size());
         if (index == 0) return null;
-
         return departments.get(index - 1);
     }
 }
