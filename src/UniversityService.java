@@ -424,6 +424,37 @@ public class UniversityService {
         return result;
     }
 
+    public List<Teacher> getTeachersByDepartment(Department department) {
+        return department.getTeachers();
+    }
+
+
+    /** * =====   WORK WITH FACULTY  ===== * **/
+
+    public void addNewFaculty(String name) {
+        if (isNameDuplicate(university.getFaculties(), name, Faculty::getName)) {
+            System.out.println("Error: Faculty with name '" + name + "' already exists.");
+            return;
+        }
+        university.getFaculties().add(new Faculty(name));
+        System.out.println("Faculty added successfully.");
+    }
+
+    public void deleteFaculty(Faculty selectedFacultyToDelete) {
+        university.getFaculties().remove(selectedFacultyToDelete);
+    }
+
+    public void editFacultyName(Faculty faculty, String newName) {
+        if (isNameDuplicate(university.getFaculties(), newName, Faculty::getName)) {
+            System.out.println("Error: Faculty with name '" + newName + "' already exists.");
+            return;
+        }
+        faculty.setName(newName);
+        System.out.println("Faculty name updated successfully to: " + newName);
+    }
+
+    /** * =====   WORK WITH DEPARTMENTS  ===== * **/
+
     public void addNewDepartment(String newDepartmentName, Faculty selectedFaculty) {
         boolean exists = selectedFaculty.getDepartments().stream()
                 .anyMatch(d -> d.getName().equalsIgnoreCase(newDepartmentName));
@@ -449,33 +480,20 @@ public class UniversityService {
                 .anyMatch(item -> nameExtractor.apply(item).equalsIgnoreCase(newName));
     }
 
-    public void addNewFaculty(String name) {
-        if (isNameDuplicate(university.getFaculties(), name, Faculty::getName)) {
-            System.out.println("Error: Faculty with name '" + name + "' already exists.");
-            return;
-        }
-        university.getFaculties().add(new Faculty(name));
-        System.out.println("Faculty added successfully.");
-    }
-
-    public void deleteFaculty(Faculty selectedFacultyToDelete) {
-        university.getFaculties().remove(selectedFacultyToDelete);
-    }
-
     public void deleteDepartment(Department selectedDept, Faculty selectedFaculty) {
         selectedFaculty.getDepartments().remove(selectedDept);
     }
 
-    public void editFacultyName(Faculty faculty, String newName) {
-        if (isNameDuplicate(university.getFaculties(), newName, Faculty::getName)) {
-            System.out.println("Error: Faculty with name '" + newName + "' already exists.");
+    /** * =====   WORK WITH SPECIALITY  ===== * **/
+    public void addNewSpeciality(String newSpecialityName, Faculty selectedFaculty) {
+        boolean exists = selectedFaculty.getSpeciality().stream()
+                .anyMatch(d -> d.getName().equalsIgnoreCase(newSpecialityName));
+
+        if (exists) {
+            System.out.println("Error: Department with this name already exists!");
             return;
         }
-        faculty.setName(newName);
-        System.out.println("Faculty name updated successfully to: " + newName);
-    }
-    public List<Teacher> getTeachersByDepartment(Department department) {
-        return department.getTeachers();
+        selectedFaculty.getSpeciality().add(new Speciality(newSpecialityName));
     }
 
 }

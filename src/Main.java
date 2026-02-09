@@ -49,18 +49,16 @@ public class Main {
 
                 case "2" -> {// Work with departments
                     System.out.println("1. Add Department");
-                    System.out.println("2. Manage Existing Department");
+                    System.out.println("2. Manage existing Department");
                     System.out.println("0. Back");
                     int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) { // add a new department
                         departmentAddDepartment(scanner, service);
                     } else if (action ==2) { // manage existing department
-                        System.out.println("Choose faculty: ");
+                        // Select Faculty and Department
                         Faculty selectedFaculty = selectFaculty(scanner, service);
                         if (selectedFaculty == null) break;
-
-                        System.out.println("Choose department: ");
                         Department selectedDept = selectDepartment(scanner, selectedFaculty);
                         if (selectedDept == null) break;
 
@@ -70,7 +68,6 @@ public class Main {
                         System.out.println("2. Delete Department");
                         System.out.println("3. Show all Teachers in the Department");
                         System.out.println("0. Back");
-
                         int workWithDepartment = InputUtils.readInt(scanner, "> ", 0, 3);
 
                         if (workWithDepartment ==1){ // edit department name
@@ -83,28 +80,31 @@ public class Main {
                     }
                 }
                 case "3" -> {   //? Edit speciality
-                    Faculty selectedFaculty = selectFaculty(scanner, service);
-                    if (selectedFaculty == null) break;
-
-                    // Select speciality
-                    Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
-                    if (selectedSpeciality == null) break;
-
                     System.out.println("1. Add Speciality");
-                    System.out.println("2. Edit Speciality");
-                    System.out.println("3. Delete Speciality");
+                    System.out.println("2. Manage existing Speciality");
                     System.out.println("0. Back");
+                    int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
-                    int workWithSpeciality = InputUtils.readInt(scanner, "> ", 0, 4);
-                    if (workWithSpeciality ==1){
-                        //add faculty
-                    } else if (workWithSpeciality == 2) {
-                        //delete faculty
-                    } else if (workWithSpeciality == 3) {
-                        //edit faculty
-                    }
-                    else {
-                        break;
+                    if (action == 1) {
+                        specialityAddSpeciality(scanner, service);
+                    } else if (action == 2) {
+
+                        // Select Faculty and Speciality
+                        Faculty selectedFaculty = selectFaculty(scanner, service);
+                        if (selectedFaculty == null) break;
+                        Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
+                        if (selectedSpeciality == null) break;
+
+                        System.out.println("1. Rename Speciality");
+                        System.out.println("2. Delete Speciality");
+                        System.out.println("0. Back");
+
+                        int workWithSpeciality = InputUtils.readInt(scanner, "> ", 0, 2);
+                        if (workWithSpeciality == 1) {
+                            //rename speciality
+                        } else if (workWithSpeciality == 2) {
+                            //delete speciality
+                        }
                     }
 
                 }
@@ -416,7 +416,7 @@ public class Main {
     //! ======= WORK WITH DEPARTMENT ===== //
     /** Add new Department */
     private static void departmentAddDepartment(Scanner scanner, UniversityService service){
-        System.out.println("Choose faculty in which department will be added:");
+        System.out.println("Choose faculty where department will be added:");
         Faculty selectedFaculty = selectFaculty(scanner, service);
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
@@ -427,7 +427,6 @@ public class Main {
             System.out.println("No faculties found. Please add a new one first.");
         }
     }
-
 
     /** Rename new Department */
     private static void departmentRenameDepartment(Scanner scanner, UniversityService service, Department selectedDept, Faculty selectedFaculty) {
@@ -455,6 +454,21 @@ public class Main {
         } else {
             System.out.println("\n--- Teachers in " + selectedDept.getName() + " ---");
             teachers.forEach(System.out::println);
+        }
+    }
+
+    //! ======= WORK WITH SPECIALITY ===== //
+    /** Add new Speciality */
+    private static void specialityAddSpeciality(Scanner scanner, UniversityService service){
+        System.out.println("Choose faculty where speciality will be added:");
+        Faculty selectedFaculty = selectFaculty(scanner, service);
+        if (selectedFaculty != null) {
+            String name = InputUtils.readLine(scanner, "Enter new Speciality name: ", false, true);
+            service.addNewSpeciality(name, selectedFaculty);
+            System.out.println("Speciality created successfully!");
+        }
+        else {
+            System.out.println("No faculties found. Please add a new one first.");
         }
     }
 
