@@ -465,9 +465,7 @@ public class Main {
                 }
                 case 4 -> {
                     int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
-                    //not finished
                     service.moveStudentToGroup(studentToProcess, newGroup);
-                    System.out.println("Group updated and student moved!");
                 }
             }
         }

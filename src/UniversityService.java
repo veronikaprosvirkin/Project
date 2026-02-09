@@ -267,7 +267,7 @@ public class UniversityService {
         for (Faculty f : university.getFaculties()) {
             if (f.getName().equals(student.getFaculty())) {
                 for (Speciality s : f.getSpeciality()) {
-                    if (s.getName().equals(student.getSpeciality())) {
+                    if (s.getName().equals(student.getSpeciality().getName())) {
                         studentSpec = s;
                         break;
                     }
