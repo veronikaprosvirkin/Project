@@ -15,6 +15,9 @@ public class Student extends Person {
 
     public int getCourse() { return course; }
     public int getGroup() { return group; }
+    public void setGroup(int group) {this.group = group;}
+    public String getFaculty() { return faculty; }
+    public String getSpeciality() { return speciality; }
 
     @Override
     public String toString() {

@@ -211,9 +211,9 @@ public class Main {
                             break;
                         }
                     } else if (workWithStudent == 3) { //edit student
-                        System.out.print("1. Edit by full name: ");
-                        System.out.println("2. Edit by ID: ");
-                        System.out.print("0. Back: ");
+                        System.out.println("1. Edit by full name");
+                        System.out.println("2. Edit by ID");
+                        System.out.println("0. Back");
                         int editStudent = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editStudent == 1) {
                             // Search among students

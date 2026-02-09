@@ -255,8 +255,42 @@ public class UniversityService {
     }
 
     //method for moving student to another group
-    public void moveStudentToGroup(Student student, int newGroup) {
-        //not finished yet
+    public void moveStudentToGroup(Student student, int newGroupNumber) {
+        if (student.getGroup() == newGroupNumber) {
+            System.out.println("Student is already in group " + newGroupNumber);
+            return;
+        }
+
+        Speciality studentSpec = null;
+
+        for (Faculty f : university.getFaculties()) {
+            if (f.getName().equals(student.getFaculty())) {
+                for (Speciality s : f.getSpeciality()) {
+                    if (s.getName().equals(student.getSpeciality())) {
+                        studentSpec = s;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (studentSpec == null) {
+            System.out.println("Error: Could not find speciality for student.");
+            return;
+        }
+        Group oldGroupObj = null;
+        for (Group g : studentSpec.getGroups()) {
+            if (g.getGroupNumber() == student.getGroup()) {
+                g.getStudents().remove(student);
+                oldGroupObj = g;
+                break;
+            }
+        }
+        addStudentToSpeciality(student, studentSpec, newGroupNumber);
+        student.setGroup(newGroupNumber);
+
+        System.out.println("Student moved from group " + (oldGroupObj != null ? oldGroupObj.getGroupNumber() : "?") +
+                " to " + newGroupNumber);
     }
 
 
