@@ -15,7 +15,7 @@ public class Main {
             System.out.println("\n--- DigiUni ---");
             System.out.println("1. Work with Faculties"); // finished
             System.out.println("2. Work with Departments"); //finished
-            System.out.println("3. Work with Specialities"); //logic written, not finished realization
+            System.out.println("3. Work with Specialities"); //finished
             System.out.println("4. Work with Students"); //logic written, not finished realization
             System.out.println("5. Work with Teachers");
             System.out.println("6. Search");
@@ -34,14 +34,16 @@ public class Main {
                     if (action == 1) {
                         facultyAddFaculty(scanner, service);
                     } else if (action == 2) { //manage existing faculties
-                        System.out.println("1. Delete Faculty");
-                        System.out.println("2. Edit Faculty");
+                        Faculty selectedFaculty = selectFaculty(scanner, service);
+                        if (selectedFaculty == null) break;
+                        System.out.println("1. Edit Faculty");
+                        System.out.println("2. Delete Faculty");
                         System.out.println("0. Back");
                         int workWithFaculty = InputUtils.readInt(scanner, "> ", 0, 2);
-                        if (workWithFaculty == 1) { //delete faculty
-                            facultyManageExistingFacultyDelete(scanner, service);
-                        } else if (workWithFaculty == 2) { //edit faculty name
-                            facultyManageExistingFacultyRename(scanner, service);
+                        if (workWithFaculty == 1) { //edit faculty name
+                            facultyManageExistingFacultyRename(scanner, service, selectedFaculty);
+                        } else if (workWithFaculty == 2) { //delete faculty
+                            facultyManageExistingFacultyDelete(scanner, service, selectedFaculty);
                         }
                     }
                 }
@@ -391,25 +393,21 @@ public class Main {
         service.addNewFaculty(name);
     }
 
+    /** Rename Faculty */
+    private static void facultyManageExistingFacultyRename(Scanner scanner, UniversityService service,  Faculty selectedFacultyToRename) {
+        String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
+        service.editFacultyName(selectedFacultyToRename, newName);
+    }
+
     /** Delete Faculty */
-    private static void facultyManageExistingFacultyDelete(Scanner scanner, UniversityService service) {
-        System.out.println("Choose faculty to delete:");
-        Faculty selectedFacultyToDelete = selectFaculty(scanner, service);
-        System.out.println("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
+    private static void facultyManageExistingFacultyDelete(Scanner scanner, UniversityService service, Faculty selectedFacultyToDelete) {
+        System.out.print("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
             service.deleteFaculty(selectedFacultyToDelete);
             System.out.println("Faculty deleted successfully!");
         } else {
             System.out.println("Operation cancelled.");
         }
-    }
-
-    /** Rename Faculty */
-    private static void facultyManageExistingFacultyRename(Scanner scanner, UniversityService service) {
-        System.out.println("Choose faculty to edit:");
-        Faculty selectedFaculty = selectFaculty(scanner, service);
-        String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
-        service.editFacultyName(selectedFaculty, newName);
     }
 
 
