@@ -294,6 +294,11 @@ public class UniversityService {
                 " to " + newGroupNumber);
     }
 
+    // delete student
+    public void deleteStudent(Student student) {
+        // NOT FINISHED METHOD
+    }
+
 
     /** ===== SEARCH ===== **/
     // search all students
@@ -393,6 +398,7 @@ public class UniversityService {
         return result;
     }
 
+
     /** * =====   WORK WITH TEACHERS  ===== * **/
     // Adding a teacher
     public void addTeacher(String name, String surname, String position) {
@@ -406,6 +412,21 @@ public class UniversityService {
     }
 
     /** ===== SEARCH ===== **/
+    // find all teachers
+    public List<Teacher> getAllTeachers() {
+        List<Teacher> allTeachers = new ArrayList<>();
+
+        for (Faculty faculty : university.getFaculties()) {
+            for (Department dept : faculty.getDepartments()) {
+                allTeachers.addAll(dept.getTeachers());
+            }
+        }
+        if (allTeachers.isEmpty()) {
+            System.out.println("No teachers found!");
+        }
+        return allTeachers;
+    }
+
     // Find teachers by name
     public List<Teacher> findTeachersByFullName(String namePart) {
         List<Teacher> result = new ArrayList<>();
@@ -428,6 +449,7 @@ public class UniversityService {
     public List<Teacher> getTeachersByDepartment(Department department) {
         return department.getTeachers();
     }
+
 
 
     /** * =====   WORK WITH FACULTY  ===== * **/
@@ -487,6 +509,7 @@ public class UniversityService {
     }
 
     /** * =====   WORK WITH SPECIALITY  ===== * **/
+
     public void addNewSpeciality(String newSpecialityName, Faculty selectedFaculty) {
         boolean exists = selectedFaculty.getSpeciality().stream()
                 .anyMatch(d -> d.getName().equalsIgnoreCase(newSpecialityName));
@@ -513,5 +536,4 @@ public class UniversityService {
     public void deleteSpeciality(Speciality selectedSpeciality, Faculty selectedFaculty) {
         selectedFaculty.getSpeciality().remove(selectedSpeciality);
     }
-
 }

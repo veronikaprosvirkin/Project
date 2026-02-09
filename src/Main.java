@@ -90,7 +90,6 @@ public class Main {
                     if (action == 1) {
                         specialityAddSpeciality(scanner, service);
                     } else if (action == 2) {
-
                         // Select Faculty and Speciality
                         Faculty selectedFaculty = selectFaculty(scanner, service);
                         if (selectedFaculty == null) break;
@@ -120,124 +119,38 @@ public class Main {
                     int workWithStudent = InputUtils.readInt(scanner, "> ", 0, 4);
 
                     if (workWithStudent == 1){ //add student
-                        System.out.println("--- Add Student ---");
-                        Faculty selectedFaculty = selectFaculty(scanner, service);
-                        if (selectedFaculty == null) break;
-
-                        // Select speciality
-                        Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
-                        if (selectedSpeciality == null) break;
-
-
-                        // Student's info
-                        String name = InputUtils.readLine(scanner, "Name: ", false, false);
-                        String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
-                        int course = InputUtils.readInt(scanner, "Enter Course (1-6): ", 1, 6);
-                        int groupNumber = InputUtils.readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
-
-
-                        // Save
-                        Student s = new Student(name, surname, course, groupNumber,
-                                selectedFaculty.getName(),
-                                selectedSpeciality.getName());
-                        service.addStudentToSpeciality(s, selectedSpeciality, groupNumber);
-
-                        System.out.println("Student " + name + " added to group " + groupNumber +
-                                " in " + selectedSpeciality.getName());
+                        studentAddStudent(scanner, service);
                     }
                     else if (workWithStudent == 2){ //delete student
-
                         System.out.println("--- Delete Student ---");
                         System.out.print("1. Delete by full name: ");
                         System.out.println("2. Delete by ID: ");
                         System.out.print("0. Back: ");
-
                         int deleteStudent = InputUtils.readInt(scanner, "> ", 0, 2);
-                        if (deleteStudent == 1){
 
-                            String name = InputUtils.readLine(scanner, "Name: ", false, false);
-                            String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
-                            //not finished
+                        if (deleteStudent == 1){
+                            studentDeleteByName(scanner, service);
                         }
                         else if (deleteStudent == 2){
+                            studentDeleteById(scanner, service);
+                        }
 
-                            //for id
-                        }
-                        else {
-                            break;
-                        }
                     } else if (workWithStudent == 3) { //edit student
+                        System.out.println("--- Edit Student ---");
                         System.out.println("1. Edit by full name");
                         System.out.println("2. Edit by ID");
                         System.out.println("0. Back");
                         int editStudent = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editStudent == 1) {
-                            // Search among students
-
-                            System.out.print("Enter full name part: ");
-                            String q = scanner.nextLine();
-                            List<Student> result = service.findStudentsByFullName(q);
-
-                            if (result.isEmpty()) {
-                                System.out.println("No students found with this name.");
-                            } else {
-                                Student studentToProcess;
-                                if (result.size() > 1) {
-                                    System.out.println("Multiple students found. Please select one: ");
-                                    for (int i = 0; i < result.size(); i++) {
-                                        System.out.println((i + 1) + ". " + result.get(i).getFullName() +
-                                                " (Group: " + result.get(i).getGroup() + ")");
-                                    }
-                                    int index = InputUtils.readInt(scanner, "> ", 1, result.size());
-
-                                    Student student = result.get(index - 1);
-
-                                    System.out.println("\nEditing student: " + student.getFullName());
-                                    System.out.println("1. Change Surname");
-                                    System.out.println("2. Change Course");
-                                    System.out.println("3. Change Group");
-                                    System.out.println("0. Cancel");
-
-                                    int fieldChoice = InputUtils.readInt(scanner, "> ", 0, 3);
-
-                                    switch (fieldChoice) {
-                                        case 1 -> {
-                                            String newSurname = InputUtils.readLine(scanner, "Enter new surname: ", false, false);
-                                            student.setSurname(newSurname);
-                                            System.out.println("Surname updated!");
-                                        }
-                                        case 2 -> {
-                                            int newCourse = InputUtils.readInt(scanner, "Enter new course (1-6): ", 1, 6);
-                                            student.setCourse(newCourse);
-                                            System.out.println("Course updated!");
-                                        }
-                                        case 3 -> {
-                                            int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
-                                            //not finished
-                                            service.moveStudentToGroup(student, newGroup);
-                                            System.out.println("Group updated and student moved!");
-                                        }
-                                    }
-                                }
-                            }
-
-
-
+                            studentEditByName(scanner, service);
                         }
                         else if (editStudent == 2){
-                            //for id
-                        }
-                        else {
-                            break;
+                            studentEditById(scanner, service);
                         }
 
-                    } else if (workWithStudent == 4) {
-                        List<Student> result = service.getAllStudents();
-                        if (result.isEmpty()) {
-                            System.out.println("No students found");
-                        } else {
-                            result.forEach(System.out::println);
-                        }
+
+                    } else if (workWithStudent == 4) {  //show all students
+                        studentShowAll(service);
                     }
 
                 }
@@ -247,34 +160,22 @@ public class Main {
                     System.out.println("3. Edit information about teacher");
                     System.out.println("4. Show all");
                     System.out.println("0. Back");
-
                     int workWithTeacher = InputUtils.readInt(scanner, "> ", 0, 4);
 
                     if (workWithTeacher == 1){ //add teacher
-                        System.out.println("--- Add Teacher ---");
-                        Faculty selectedFaculty = selectFaculty(scanner, service);
-                        if (selectedFaculty == null) break;
-
-                        // Select Department
-                        Department selectedDept = selectDepartment(scanner, selectedFaculty);
-                        if (selectedDept == null) break;
-
-
-                        // Teachers's info
-                        String name = InputUtils.readLine(scanner, "Name: ", false, false);
-                        String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
-                        String position = InputUtils.readLine(scanner, "Position: ", false, true);
-
-
-
-                        // Save
-                        Teacher t = new Teacher(name,surname,position);
-                        service.addTeacher(name, surname, position);
-                        System.out.println("Teacher " + name + " " + surname +
-                                " successfully added to department: " + selectedDept.getName());
+                        teacherAddTeacher(scanner, service);
                     }
                     else if (workWithTeacher == 2){
-                        //delete teacher
+                        System.out.println(" --- Delete Teacher ---");
+                        System.out.println("1. Delete by full name");
+                        System.out.println("2. Add by ID");
+                        System.out.println("0. Cancel");
+                        int deleteTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
+                        if (deleteTeacher == 1){
+                            teacherDeleteByName(scanner, service);
+                        } else  if (deleteTeacher == 2){
+                            teacherDeleteById(scanner, service);
+                        }
 
                     } else if (workWithTeacher == 3) { //edit teacher
                         System.out.print("1. Edit by full name: ");
@@ -282,15 +183,13 @@ public class Main {
                         System.out.print("0. Back: ");
                         int editTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editTeacher == 1) {
-                            // Search among teachers
+                            teacherEditByName(scanner, service);
                         }
                         else if (editTeacher == 2){
-                            //for id
+                            teacherDeleteById(scanner, service);
                         }
-                        else {
-                            break;
-                        }
-
+                    } else if (workWithTeacher == 4) { //show all
+                        teacherShowAll(service);
                     }
                 }
 
@@ -298,14 +197,12 @@ public class Main {
                     System.out.println("1. Find Student: ");
                     System.out.println("2. Find Teacher: ");
                     int searchType = InputUtils.readInt(scanner, "> ", 1, 2);
-                    if (searchType == 1) {
-
+                    if (searchType == 1) { //Find Student
                         System.out.println("1. Search by full name: ");
                         System.out.println("2. Search by group number: ");
                         System.out.println("3. Search by course: ");
                         System.out.println("4. Search by speciality: ");
                         System.out.println("0. Back: ");
-
                         int searchBy = InputUtils.readInt(scanner, "> ", 0, 4);
 
                         if (searchBy == 1) { //by full name
@@ -360,7 +257,7 @@ public class Main {
                             //not finished
                         }
 
-                    } else if (searchType == 2) { //search for teacher
+                    } else if (searchType == 2) { //Find Teacher
                         System.out.println("1. Search by full name: ");
                         System.out.println("2. Search by department: ");
                         System.out.println("3. Search by position: ");
@@ -484,6 +381,190 @@ public class Main {
             System.out.println("Operation cancelled.");
         }
     }
+
+    //! ======= WORK WITH STUDENTS ===== //
+    /** Add new Student */
+    private static void studentAddStudent(Scanner scanner, UniversityService service){
+        System.out.println("--- Add Student ---");
+        Faculty selectedFaculty = selectFaculty(scanner, service);
+        if (selectedFaculty == null) return;
+
+        // Select speciality
+        Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
+        if (selectedSpeciality == null) return;
+
+
+        // Student's info
+        String name = InputUtils.readLine(scanner, "Name: ", false, false);
+        String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
+        int course = InputUtils.readInt(scanner, "Enter Course (1-6): ", 1, 6);
+        int groupNumber = InputUtils.readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
+
+
+        // Save
+        Student s = new Student(name, surname, course, groupNumber,
+                selectedFaculty.getName(),
+                selectedSpeciality.getName());
+        service.addStudentToSpeciality(s, selectedSpeciality, groupNumber);
+
+        System.out.println("Student " + name + " added to group " + groupNumber +
+                " in " + selectedSpeciality.getName());
+    }
+
+    /** Delete the Student by name */
+    private static void studentDeleteByName(Scanner scanner, UniversityService service){
+        System.out.print("Enter full name part: ");
+        String fullName = InputUtils.readLine(scanner, "Name: ", false, true);
+        List<Student> result = service.findStudentsByFullName(fullName);
+
+        if (result.isEmpty()) {
+            System.out.println("No students found with this name.");
+        } else {
+            if (result.size() > 1) {
+                System.out.println("Multiple students found. Please select one: ");
+                for (int i = 0; i < result.size(); i++) {
+                    System.out.println((i + 1) + ". " + result.get(i).getFullName() +
+                            " (Group: " + result.get(i).getGroup() + ", Course: " + result.get(i).getCourse() + ")");
+                }
+                System.out.println("0. Cancel");
+                int index = InputUtils.readInt(scanner, "> ", 0, result.size());
+                if (index == 0) {return;}
+
+                Student student = result.get(index - 1);
+                service.deleteStudent(student);   // NOT FINISHED METHOD
+            }
+        }
+    }
+
+    /** Delete the Student by ID */
+    private static void studentDeleteById(Scanner scanner, UniversityService service){
+        // NOT FINISHED METHOD
+    }
+
+    /** Edit the Student by name */
+    private static void studentEditByName(Scanner scanner, UniversityService service){
+        String fullName = InputUtils.readLine(scanner, "Enter full name part: ", false, true);
+        List<Student> result = service.findStudentsByFullName(fullName);
+
+        if (result.isEmpty()) {
+            System.out.println("No students found with this name.");
+        } else {
+            Student studentToProcess;
+            if (result.size() > 1) {
+                System.out.println("Multiple students found. Please select one: ");
+                for (int i = 0; i < result.size(); i++) {
+                    System.out.println((i + 1) + ". " + result.get(i).getFullName() +
+                            " (Group: " + result.get(i).getGroup() + ", Course: "+ result.get(i).getCourse() + ")");
+                }
+                int index = InputUtils.readInt(scanner, "> ", 1, result.size());
+
+                Student student = result.get(index - 1);
+
+                System.out.println("\nEditing student: " + student.getFullName());
+                System.out.println("1. Change Surname");
+                System.out.println("2. Change Course");
+                System.out.println("3. Change Group");
+                System.out.println("0. Cancel");
+
+                int fieldChoice = InputUtils.readInt(scanner, "> ", 0, 3);
+
+                switch (fieldChoice) {
+                    case 1 -> {
+                        String newSurname = InputUtils.readLine(scanner, "Enter new surname: ", false, false);
+                        student.setSurname(newSurname);
+                        System.out.println("Surname updated!");
+                    }
+                    case 2 -> {
+                        int newCourse = InputUtils.readInt(scanner, "Enter new course (1-6): ", 1, 6);
+                        student.setCourse(newCourse);
+                        System.out.println("Course updated!");
+                    }
+                    case 3 -> {
+                        int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
+                        //not finished
+                        service.moveStudentToGroup(student, newGroup);
+                        System.out.println("Group updated and student moved!");
+                    }
+                }
+            }
+        }
+    }
+
+    /** Edit the Student by ID */
+    private static void studentEditById(Scanner scanner, UniversityService service){
+        // NOT FINISHED METHOD
+    }
+
+    /** Show all students */
+    private static void studentShowAll(UniversityService service){
+        List<Student> result = service.getAllStudents();
+        if (result.isEmpty()) {
+            System.out.println("No students found");
+        } else {
+            System.out.println(" --- Students ---");
+            result.forEach(System.out::println);
+        }
+    }
+
+    //! ======= WORK WITH TEACHERS ===== //
+    /** Add new Teacher */
+    private static void teacherAddTeacher(Scanner scanner, UniversityService service){
+        System.out.println("--- Add Teacher ---");
+        Faculty selectedFaculty = selectFaculty(scanner, service);
+        if (selectedFaculty == null) return;
+
+        // Select Department
+        Department selectedDept = selectDepartment(scanner, selectedFaculty);
+        if (selectedDept == null) return;
+
+
+        // Teachers's info
+        String name = InputUtils.readLine(scanner, "Name: ", false, false);
+        String surname = InputUtils.readLine(scanner, "Surname: ", false, false);
+        String position = InputUtils.readLine(scanner, "Position: ", false, true);
+
+
+
+        // Save
+        Teacher t = new Teacher(name,surname,position);
+        service.addTeacher(name, surname, position);
+        System.out.println("Teacher " + name + " " + surname +
+                " successfully added to department: " + selectedDept.getName());
+    }
+
+    /** Delete the Teacher by name */
+    private static void teacherDeleteByName(Scanner scanner, UniversityService service){
+        // NOT FINISHED METHOD
+    }
+
+    /** Delete the Teacher by ID */
+    private static void teacherDeleteById(Scanner scanner, UniversityService service){
+        // NOT FINISHED METHOD
+    }
+
+    /** Edit the Teacher by name */
+    private static void teacherEditByName(Scanner scanner, UniversityService service){
+        // NOT FINISHED METHOD
+    }
+
+    /** Edit the Teacher by ID */
+    private static void teacherEditById(Scanner scanner, UniversityService service){
+        // NOT FINISHED METHOD
+    }
+
+    /** Show all teachers */
+    private static void teacherShowAll(UniversityService service){
+        List<Teacher> result = service.getAllTeachers();
+        if (result.isEmpty()) {
+            System.out.println("No students found");
+        } else {
+            System.out.println(" --- Teachers ---");
+            result.forEach(System.out::println);
+        }
+    }
+
+
+
 
 
     // * ===== METHODS HELPERS ===== * //
