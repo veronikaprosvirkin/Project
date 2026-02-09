@@ -34,7 +34,7 @@ public class Main {
                     System.out.println("2. Delete Faculty");
                     System.out.println("3. Edit Faculty");
                     System.out.println("0. Back");
-                    int workWithFaculty = InputUtils.readInt(scanner, "Enter number of operation: ", 0, 3);
+                    int workWithFaculty = InputUtils.readInt(scanner, "> ", 0, 3);
                     if (workWithFaculty ==1){ //add faculty
                         String name = InputUtils.readLine(scanner,"Enter new Faculty name: ", false, true);
                         service.addNewFaculty(name);
@@ -228,7 +228,7 @@ public class Main {
                                         System.out.println((i + 1) + ". " + result.get(i).getFullName() +
                                                 " (Group: " + result.get(i).getGroup() + ")");
                                     }
-                                    int index = InputUtils.readInt(scanner, "Enter student number: ", 1, result.size());
+                                    int index = InputUtils.readInt(scanner, "> ", 1, result.size());
 
                                     Student student = result.get(index - 1);
 
@@ -437,7 +437,7 @@ public class Main {
         for (int i = 0; i < faculties.size(); i++) {
             System.out.println((i + 1) + ". " + faculties.get(i).getName());
         }
-        int index = InputUtils.readInt(scanner, "Enter Faculty number: ", 1, faculties.size()) - 1;
+        int index = InputUtils.readInt(scanner, "> ", 1, faculties.size()) - 1;
         return faculties.get(index);
     }
 
@@ -459,7 +459,7 @@ public class Main {
         for (int i = 0; i < specialities.size(); i++) {
             System.out.println((i + 1) + ". " + specialities.get(i).getName());
         }
-        int index = InputUtils.readInt(scanner, "Enter speciality number: ", 1, specialities.size()) - 1;
+        int index = InputUtils.readInt(scanner, "> ", 1, specialities.size()) - 1;
         return specialities.get(index);
     }
 
