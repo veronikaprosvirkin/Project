@@ -123,9 +123,9 @@ public class Main {
                     }
                     else if (workWithStudent == 2){ //delete student
                         System.out.println("--- Delete Student ---");
-                        System.out.print("1. Delete by full name: ");
+                        System.out.println("1. Delete by full name: ");
                         System.out.println("2. Delete by ID: ");
-                        System.out.print("0. Back: ");
+                        System.out.println("0. Back: ");
                         int deleteStudent = InputUtils.readInt(scanner, "> ", 0, 2);
 
                         if (deleteStudent == 1){
@@ -373,19 +373,19 @@ public class Main {
                 selectedSpeciality);
         service.addStudentToSpeciality(s, selectedSpeciality, groupNumber);
 
-        System.out.println("Student " + name + " added to group " + groupNumber +
+        System.out.println("Student " + s.getFullName() + " added to group " + groupNumber +
                 " in " + selectedSpeciality.getName());
     }
 
     /** Delete the Student by name */
     private static void studentDeleteByName(Scanner scanner, UniversityService service){
-        System.out.print("Enter full name part: ");
         String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, true);
         List<Student> result = service.findStudentsByFullName(fullName);
 
         if (result.isEmpty()) {
             System.out.println("No students found with this name.");
         } else {
+            Student studentToProcess;
             if (result.size() > 1) {
                 System.out.println("Multiple students found. Please select one: ");
                 for (int i = 0; i < result.size(); i++) {
@@ -396,8 +396,16 @@ public class Main {
                 int index = InputUtils.readInt(scanner, "> ", 0, result.size());
                 if (index == 0) {return;}
 
-                Student student = result.get(index - 1);
-                service.deleteStudent(student, student.getSpeciality());
+                studentToProcess = result.get(index - 1);
+            } else  {
+                studentToProcess = result.get(0);
+            }
+            System.out.print("Are you sure you want ot delete " + studentToProcess.getFullName() + "? (y/n): ");
+            if (scanner.nextLine().toLowerCase().startsWith("y")) {
+                service.deleteStudent(studentToProcess, studentToProcess.getSpeciality());
+            }
+            else {
+                System.out.println("Operation cancelled.");
             }
         }
     }
