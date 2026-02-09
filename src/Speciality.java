@@ -18,4 +18,5 @@ public class Speciality {
 
 
     public String getName() { return nameOfSpeciality; }
+    public void setName(String name) { this.nameOfSpeciality = name; }
 }
