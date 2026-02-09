@@ -424,39 +424,42 @@ public class Main {
                 }
                 int index = InputUtils.readInt(scanner, "> ", 1, result.size());
 
-                Student student = result.get(index - 1);
+                studentToProcess = result.get(index - 1);
 
-                System.out.println("\nEditing student: " + student.getFullName());
-                System.out.println("1. Change Surname");
-                System.out.println("2. Change Name");
-                System.out.println("3. Change Course");
-                System.out.println("4. Change Group");
-                System.out.println("0. Cancel");
+            } else {
+                studentToProcess = result.get(0);
+            }
 
-                int fieldChoice = InputUtils.readInt(scanner, "> ", 0, 4);
+            System.out.println("\nEditing student: " + studentToProcess.getFullName());
+            System.out.println("1. Change Surname");
+            System.out.println("2. Change Name");
+            System.out.println("3. Change Course");
+            System.out.println("4. Change Group");
+            System.out.println("0. Cancel");
 
-                switch (fieldChoice) {
-                    case 1 -> {
-                        String newSurname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new surname: ", false, false));
-                        student.setSurname(newSurname);
-                        System.out.println("Surname updated!");
-                    }
-                    case 2 -> {
-                        String newName = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new name: ", false, false));
-                        student.setName(newName);
-                        System.out.println("Name updated!");
-                    }
-                    case 3 -> {
-                        int newCourse = InputUtils.readInt(scanner, "Enter new course (1-6): ", 1, 6);
-                        student.setCourse(newCourse);
-                        System.out.println("Course updated!");
-                    }
-                    case 4 -> {
-                        int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
-                        //not finished
-                        service.moveStudentToGroup(student, newGroup);
-                        System.out.println("Group updated and student moved!");
-                    }
+            int fieldChoice = InputUtils.readInt(scanner, "> ", 0, 4);
+
+            switch (fieldChoice) {
+                case 1 -> {
+                    String newSurname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new surname: ", false, false));
+                    studentToProcess.setSurname(newSurname);
+                    System.out.println("Surname updated!");
+                }
+                case 2 -> {
+                    String newName = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new name: ", false, false));
+                    studentToProcess.setName(newName);
+                    System.out.println("Name updated!");
+                }
+                case 3 -> {
+                    int newCourse = InputUtils.readInt(scanner, "Enter new course (1-6): ", 1, 6);
+                    studentToProcess.setCourse(newCourse);
+                    System.out.println("Course updated!");
+                }
+                case 4 -> {
+                    int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
+                    //not finished
+                    service.moveStudentToGroup(studentToProcess, newGroup);
+                    System.out.println("Group updated and student moved!");
                 }
             }
         }

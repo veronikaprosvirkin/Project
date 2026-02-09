@@ -25,6 +25,5 @@ public class Student extends Person {
                 " | Faculty: " + faculty + " | Spec: " + speciality;
     }
 
-    public void setCourse(int newCourse) {
-    }
+    public void setCourse(int newCourse) {this.course = newCourse;}
 }
