@@ -12,7 +12,7 @@ public class Main {
         service.addStudent("Irzek", "Tymekowskych", 2, 15);
 
         while (true) {
-            System.out.println("\n--- DigiUni (Hierarchical) ---");
+            System.out.println("\n--- DigiUni ---");
             System.out.println("1. Work with Faculties"); // finished
             System.out.println("2. Work with Departments"); //finished
             System.out.println("3. Work with Specialities"); //logic written, not finished realization
@@ -28,36 +28,20 @@ public class Main {
                 case "1" -> { // Work with faculties
                     System.out.println("1. Add Faculty");
                     System.out.println("2. Manage Existing Faculty");
-
-                    int action = InputUtils.readInt(scanner, "> ", 1, 2);
+                    System.out.println("0. Back");
+                    int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) {
-                        String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
-                        service.addNewFaculty(name);
+                        facultyAddFaculty(scanner, service);
                     } else if (action == 2) { //manage existing faculties
-
                         System.out.println("1. Delete Faculty");
                         System.out.println("2. Edit Faculty");
                         System.out.println("0. Back");
                         int workWithFaculty = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (workWithFaculty == 1) { //delete faculty
-                            System.out.println("Choose faculty to delete:");
-                            Faculty selectedFacultyToDelete = selectFaculty(scanner, service);
-                            System.out.println("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
-                            if (scanner.nextLine().toLowerCase().startsWith("y")) {
-                                service.deleteFaculty(selectedFacultyToDelete);
-                                System.out.println("Faculty deleted successfully!");
-                            } else {
-                                System.out.println("Operation cancelled.");
-                            }
+                            facultyManageExistingFacultyDelete(scanner, service);
                         } else if (workWithFaculty == 2) { //edit faculty name
-                            System.out.println("Choose faculty to edit:");
-                            Faculty selectedFaculty = selectFaculty(scanner, service);
-                            String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
-                            service.editFacultyName(selectedFaculty, newName);
-                        }
-                        else {
-                            break;
+                            facultyManageExistingFacultyRename(scanner, service);
                         }
                     }
                 }
@@ -428,15 +412,42 @@ public class Main {
         }
     }
 
+    // * ===== METHODS SEPARATED FOR EVERY ACTION ===== * //
+    //! ======= WORK WITH FACULTY ===== //
+    /** Add new Faculty */
+    private static void facultyAddFaculty(Scanner scanner, UniversityService service) {
+        String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
+        service.addNewFaculty(name);
+    }
 
+    /** Delete Faculty */
+    private static void facultyManageExistingFacultyDelete(Scanner scanner, UniversityService service) {
+        System.out.println("Choose faculty to delete:");
+        Faculty selectedFacultyToDelete = selectFaculty(scanner, service);
+        System.out.println("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
+        if (scanner.nextLine().toLowerCase().startsWith("y")) {
+            service.deleteFaculty(selectedFacultyToDelete);
+            System.out.println("Faculty deleted successfully!");
+        } else {
+            System.out.println("Operation cancelled.");
+        }
+    }
+
+    /** Rename Faculty */
+    private static void facultyManageExistingFacultyRename(Scanner scanner, UniversityService service) {
+        System.out.println("Choose faculty to edit:");
+        Faculty selectedFaculty = selectFaculty(scanner, service);
+        String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
+        service.editFacultyName(selectedFaculty, newName);
+    }
 
     // * ===== METHODS HELPERS ===== * //
 
     /**
      * ? Faculty selection
-     * @param scanner
-     * @param service
-     * @return
+     * @param scanner provided
+     * @param service provided
+     * @return Faculty
      */
     private static Faculty selectFaculty(Scanner scanner, UniversityService service) {
         List<Faculty> faculties = service.getFaculties();
@@ -452,13 +463,11 @@ public class Main {
         return faculties.get(index);
     }
 
-
-
     /**
      * ? Department selection
-     * @param scanner
-     * @param faculty
-     * @return
+     * @param scanner provided
+     * @param faculty provided
+     * @return Speciality
      */
     private static Speciality selectSpeciality(Scanner scanner, Faculty faculty) {
         List<Speciality> specialities = faculty.getSpeciality();
@@ -474,6 +483,12 @@ public class Main {
         return specialities.get(index);
     }
 
+    /**
+     * ? Department selection
+     * @param scanner provided
+     * @param faculty provided
+     * @return Department
+     */
     private static Department selectDepartment(Scanner scanner, Faculty faculty) {
 
         List<Department> departments = faculty.getDepartments();
