@@ -254,6 +254,11 @@ public class UniversityService {
             targetGroup.getStudents().add(student);
     }
 
+    //method for moving student to another group
+    public void moveStudentToGroup(Student student, int newGroup) {
+        //not finished yet
+    }
+
 
     /** ===== SEARCH ===== **/
     // search all students
@@ -383,11 +388,6 @@ public class UniversityService {
             System.out.println("No teacher found by name " + namePart);
         }
         return result;
-    }
-
-    //method for moving student to another group
-    public void moveStudentToGroup(Student student, int newGroup) {
-        //not finished yet
     }
 
     public void addNewDepartment(String newDepartmentName, Faculty selectedFaculty) {
