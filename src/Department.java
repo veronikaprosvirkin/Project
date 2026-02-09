@@ -18,6 +18,6 @@ public class Department {
     }
 
     public void setName(String editName) {
-
+        this.nameOfDepartment = editName;
     }
 }

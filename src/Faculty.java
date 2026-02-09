@@ -18,9 +18,6 @@ public class Faculty {
         return departments;
     }
 
-    public void setDepartments(List<Department> departments) {
-        this.departments = departments;
-    }
 
     public void setSpeciality(List<Speciality> specialities) {
         this.speciality = specialities;
@@ -29,5 +26,6 @@ public class Faculty {
     public String getName() { return nameOfFaculty; }
 
     public void setName(String newName) {
+        this.nameOfFaculty = newName;
     }
 }
