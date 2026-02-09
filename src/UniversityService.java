@@ -237,10 +237,6 @@ public class UniversityService {
 
     }
 
-    public void addStudentToDepartment(Group group, Speciality speciality, int groupNumber) {
-    speciality.getGroups().add(new Group(groupNumber));
-    }
-
     public void addStudentToSpeciality(Student student, Speciality speciality, int groupNumber) {
             Group targetGroup = null;
             for (Group g : speciality.getGroups()) {
