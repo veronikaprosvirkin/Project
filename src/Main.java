@@ -501,16 +501,24 @@ public class Main {
 
 
         // Save
-        Teacher t = new Teacher(name,surname,position);
-        service.addTeacher(name, surname, position);
+        Teacher t = new Teacher(name,surname,position,selectedDept);
+        service.addTeacher(name, surname, position,selectedDept);
         System.out.println("Teacher " + name + " " + surname +
                 " successfully added to department: " + selectedDept.getName());
     }
 
     /** Delete the Teacher by name */
     private static void teacherDeleteByName(Scanner scanner, UniversityService service){
-        // NOT FINISHED METHOD
+        System.out.print("Delete teacher by full name ");
+        String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, true);
+        List<Teacher> result = service.findTeachersByFullName(fullName);
+
+        if (!result.isEmpty()) {
+            Teacher toDelete = result.get(0);
+            service.deleteTeacher(toDelete, toDelete.getDepartmentObject());
+        }
     }
+
 
     /** Delete the Teacher by ID */
     private static void teacherDeleteById(Scanner scanner, UniversityService service){
@@ -531,7 +539,7 @@ public class Main {
     private static void teacherShowAll(UniversityService service){
         List<Teacher> result = service.getAllTeachers();
         if (result.isEmpty()) {
-            System.out.println("No students found");
+            System.out.println("No teachers found");
         } else {
             System.out.println(" --- Teachers ---");
             result.forEach(System.out::println);
