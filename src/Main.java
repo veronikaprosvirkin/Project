@@ -57,7 +57,7 @@ public class Main {
 
                     if (action == 1) { // add a new department
                         departmentAddDepartment(scanner, service);
-                    } else if (action ==2) { // manage existing department
+                    } else if (action == 2) { // manage existing department
                         // Select Faculty and Department
                         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculty");
                         if (selectedFaculty == null) break;
@@ -72,7 +72,7 @@ public class Main {
                         System.out.println("0. Back");
                         int workWithDepartment = InputUtils.readInt(scanner, "> ", 0, 3);
 
-                        if (workWithDepartment ==1){ // edit department name
+                        if (workWithDepartment == 1) { // edit department name
                             departmentRenameDepartment(scanner, service, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 2) { //delete department
                             departmentDeleteDepartment(scanner, service, selectedDept, selectedFaculty);
@@ -118,20 +118,18 @@ public class Main {
 
                     int workWithStudent = InputUtils.readInt(scanner, "> ", 0, 4);
 
-                    if (workWithStudent == 1){ //add student
+                    if (workWithStudent == 1) { //add student
                         studentAddStudent(scanner, service);
-                    }
-                    else if (workWithStudent == 2){ //delete student
+                    } else if (workWithStudent == 2) { //delete student
                         System.out.println("--- Delete Student ---");
                         System.out.println("1. Delete by full name: ");
                         System.out.println("2. Delete by ID: ");
                         System.out.println("0. Back: ");
                         int deleteStudent = InputUtils.readInt(scanner, "> ", 0, 2);
 
-                        if (deleteStudent == 1){
+                        if (deleteStudent == 1) {
                             studentDeleteByName(scanner, service);
-                        }
-                        else if (deleteStudent == 2){
+                        } else if (deleteStudent == 2) {
                             studentDeleteById(scanner, service);
                         }
 
@@ -143,14 +141,14 @@ public class Main {
                         int editStudent = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editStudent == 1) {
                             studentEditByName(scanner, service);
-                        }
-                        else if (editStudent == 2){
+                        } else if (editStudent == 2) {
                             studentEditById(scanner, service);
                         }
 
 
-                    } else if (workWithStudent == 4) {  //show all students
-                        studentShowAll(service);
+                    } else if (workWithStudent == 4) {
+                        List<Student> students = service.getAllStudents();//show all students
+                        showAllEntity(scanner, students, "Students List");
                     }
 
                 }
@@ -162,18 +160,17 @@ public class Main {
                     System.out.println("0. Back");
                     int workWithTeacher = InputUtils.readInt(scanner, "> ", 0, 4);
 
-                    if (workWithTeacher == 1){ //add teacher
+                    if (workWithTeacher == 1) { //add teacher
                         teacherAddTeacher(scanner, service);
-                    }
-                    else if (workWithTeacher == 2){
+                    } else if (workWithTeacher == 2) {
                         System.out.println(" --- Delete Teacher ---");
                         System.out.println("1. Delete by full name");
                         System.out.println("2. Add by ID");
                         System.out.println("0. Cancel");
                         int deleteTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
-                        if (deleteTeacher == 1){
+                        if (deleteTeacher == 1) {
                             teacherDeleteByName(scanner, service);
-                        } else  if (deleteTeacher == 2){
+                        } else if (deleteTeacher == 2) {
                             teacherDeleteById(scanner, service);
                         }
 
@@ -184,12 +181,12 @@ public class Main {
                         int editTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editTeacher == 1) {
                             teacherEditByName(scanner, service);
-                        }
-                        else if (editTeacher == 2){
+                        } else if (editTeacher == 2) {
                             teacherEditById(scanner, service);
                         }
-                    } else if (workWithTeacher == 4) { //show all
-                        teacherShowAll(service);
+                    } else if (workWithTeacher == 4) {//show all
+                        List<Teacher> teachers = service.getAllTeachers();
+                        showAllEntity(scanner, teachers, "Teachers List");
                     }
                 }
 
@@ -207,8 +204,7 @@ public class Main {
 
                         if (searchBy == 1) { //by full name
                             searchStudentByName(scanner, service);
-                        }
-                        else if (searchBy == 2) { //by group number
+                        } else if (searchBy == 2) { //by group number
                             System.out.println("1. Find in specific speciality");
                             System.out.println("2. Find in all university");
                             int type = InputUtils.readInt(scanner, "> ", 1, 2);
@@ -231,17 +227,19 @@ public class Main {
                         System.out.println("0. Back: ");
 
                         int searchBy = InputUtils.readInt(scanner, "> ", 0, 3);
-                        if (searchBy == 1){
+                        if (searchBy == 1) {
                             searchTeacherByName(scanner, service);
                         } else if (searchBy == 2) {
                             searchTeacherByDepartment(scanner, service);
-                        } else  if (searchBy == 3) {
+                        } else if (searchBy == 3) {
                             searchTeacherByPosition(scanner, service);
                         }
                     }
 
                 }
-                case "0" -> { return; }     //? Stop the program
+                case "0" -> {
+                    return;
+                }     //? Stop the program
                 default -> System.out.println("Invalid.");  //? Incorrect input
             }
         }
@@ -250,19 +248,26 @@ public class Main {
     // * ===== METHODS SEPARATED FOR EVERY ACTION ===== * //
 
     //! ======= WORK WITH FACULTY ===== //
-    /** Add new Faculty */
+
+    /**
+     * Add new Faculty
+     */
     private static void facultyAddFaculty(Scanner scanner, UniversityService service) {
         String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
         service.addNewFaculty(name);
     }
 
-    /** Rename Faculty */
-    private static void facultyManageExistingFacultyRename(Scanner scanner, UniversityService service,  Faculty selectedFacultyToRename) {
+    /**
+     * Rename Faculty
+     */
+    private static void facultyManageExistingFacultyRename(Scanner scanner, UniversityService service, Faculty selectedFacultyToRename) {
         String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
         service.editFacultyName(selectedFacultyToRename, newName);
     }
 
-    /** Delete Faculty */
+    /**
+     * Delete Faculty
+     */
     private static void facultyManageExistingFacultyDelete(Scanner scanner, UniversityService service, Faculty selectedFacultyToDelete) {
         System.out.print("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
@@ -275,39 +280,46 @@ public class Main {
 
 
     //! ======= WORK WITH DEPARTMENT ===== //
-    /** Add new Department */
-    private static void departmentAddDepartment(Scanner scanner, UniversityService service){
+
+    /**
+     * Add new Department
+     */
+    private static void departmentAddDepartment(Scanner scanner, UniversityService service) {
         System.out.println("Choose faculty where department will be added:");
         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
             service.addNewDepartment(name, selectedFaculty);
-        }
-        else {
+        } else {
             System.out.println("No faculties found. Please add a new one first.");
         }
     }
 
-    /** Rename the Department */
+    /**
+     * Rename the Department
+     */
     private static void departmentRenameDepartment(Scanner scanner, UniversityService service, Department selectedDept, Faculty selectedFaculty) {
-        String editName = InputUtils.readLine(scanner,"Write new name for " + selectedDept.getName() + ": ", false, true);
+        String editName = InputUtils.readLine(scanner, "Write new name for " + selectedDept.getName() + ": ", false, true);
         service.editDepartmentName(selectedDept, editName, selectedFaculty);
     }
 
-    /** Delete the Department */
-    private static void departmentDeleteDepartment(Scanner scanner, UniversityService service,  Department selectedDept,  Faculty selectedFaculty) {
+    /**
+     * Delete the Department
+     */
+    private static void departmentDeleteDepartment(Scanner scanner, UniversityService service, Department selectedDept, Faculty selectedFaculty) {
         System.out.print("Are you sure you want ot delete " + selectedDept.getName() + "? (y/n): ");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
             service.deleteDepartment(selectedDept, selectedFaculty);
             System.out.println("Department deleted successfully!");
-        }
-        else {
+        } else {
             System.out.println("Operation cancelled.");
         }
     }
 
-    /** Show all teachers in the Department */
-    private static void departmentShowTeachers(UniversityService service,  Department selectedDept){
+    /**
+     * Show all teachers in the Department
+     */
+    private static void departmentShowTeachers(UniversityService service, Department selectedDept) {
         List<Teacher> teachers = service.getTeachersByDepartment(selectedDept);
         if (teachers.isEmpty()) {
             System.out.println("There are no teachers assigned to " + selectedDept.getName() + " yet.");
@@ -318,27 +330,33 @@ public class Main {
     }
 
     //! ======= WORK WITH SPECIALITY ===== //
-    /** Add new Speciality */
-    private static void specialityAddSpeciality(Scanner scanner, UniversityService service){
+
+    /**
+     * Add new Speciality
+     */
+    private static void specialityAddSpeciality(Scanner scanner, UniversityService service) {
         System.out.println("Choose faculty where speciality will be added:");
         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Speciality name: ", false, true);
             service.addNewSpeciality(name, selectedFaculty);
-        }
-        else {
+        } else {
             System.out.println("No faculties found. Please add a new one first.");
         }
     }
 
-    /** Rename the Speciality */
+    /**
+     * Rename the Speciality
+     */
     private static void specialityRenameSpeciality(Scanner scanner, UniversityService service, Speciality selectedSpeciality, Faculty selectedFaculty) {
-        String editName = InputUtils.readLine(scanner,"Write new name for " + selectedSpeciality.getName() + ": ", false, true);
+        String editName = InputUtils.readLine(scanner, "Write new name for " + selectedSpeciality.getName() + ": ", false, true);
         service.editSpecialityName(selectedSpeciality, editName, selectedFaculty);
     }
 
-    /** Delete the Speciality */
-    private static void specialityDeleteSpeciality(Scanner scanner, UniversityService service,  Speciality selectedSpeciality,  Faculty selectedFaculty) {
+    /**
+     * Delete the Speciality
+     */
+    private static void specialityDeleteSpeciality(Scanner scanner, UniversityService service, Speciality selectedSpeciality, Faculty selectedFaculty) {
         System.out.print("Are you sure you want ot delete " + selectedSpeciality.getName() + "? (y/n): ");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
             service.deleteSpeciality(selectedSpeciality, selectedFaculty);
@@ -349,8 +367,11 @@ public class Main {
     }
 
     //! ======= WORK WITH STUDENTS ===== //
-    /** Add new Student */
-    private static void studentAddStudent(Scanner scanner, UniversityService service){
+
+    /**
+     * Add new Student
+     */
+    private static void studentAddStudent(Scanner scanner, UniversityService service) {
         System.out.println("--- Add Student ---");
         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
         if (selectedFaculty == null) return;
@@ -377,8 +398,10 @@ public class Main {
                 " in " + selectedSpeciality.getName());
     }
 
-    /** Delete the Student by name */
-    private static void studentDeleteByName(Scanner scanner, UniversityService service){
+    /**
+     * Delete the Student by name
+     */
+    private static void studentDeleteByName(Scanner scanner, UniversityService service) {
         String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, true);
         List<Student> result = service.findStudentsByFullName(fullName);
 
@@ -394,29 +417,34 @@ public class Main {
                 }
                 System.out.println("0. Cancel");
                 int index = InputUtils.readInt(scanner, "> ", 0, result.size());
-                if (index == 0) {return;}
+                if (index == 0) {
+                    return;
+                }
 
                 studentToProcess = result.get(index - 1);
-            } else  {
+            } else {
                 studentToProcess = result.get(0);
             }
             System.out.print("Are you sure you want ot delete " + studentToProcess.getFullName() + "? (y/n): ");
             if (scanner.nextLine().toLowerCase().startsWith("y")) {
                 service.deleteStudent(studentToProcess, studentToProcess.getSpeciality());
-            }
-            else {
+            } else {
                 System.out.println("Operation cancelled.");
             }
         }
     }
 
-    /** Delete the Student by ID */
-    private static void studentDeleteById(Scanner scanner, UniversityService service){
+    /**
+     * Delete the Student by ID
+     */
+    private static void studentDeleteById(Scanner scanner, UniversityService service) {
         // NOT FINISHED METHOD
     }
 
-    /** Edit the Student by name */
-    private static void studentEditByName(Scanner scanner, UniversityService service){
+    /**
+     * Edit the Student by name
+     */
+    private static void studentEditByName(Scanner scanner, UniversityService service) {
         String fullName = InputUtils.readLine(scanner, "Enter full name part: ", false, true);
         List<Student> result = service.findStudentsByFullName(fullName);
 
@@ -428,7 +456,7 @@ public class Main {
                 System.out.println("Multiple students found. Please select one: ");
                 for (int i = 0; i < result.size(); i++) {
                     System.out.println((i + 1) + ". " + result.get(i).getFullName() +
-                            " (Group: " + result.get(i).getGroup() + ", Course: "+ result.get(i).getCourse() + ")");
+                            " (Group: " + result.get(i).getGroup() + ", Course: " + result.get(i).getCourse() + ")");
                 }
                 int index = InputUtils.readInt(scanner, "> ", 1, result.size());
 
@@ -471,13 +499,17 @@ public class Main {
         }
     }
 
-    /** Edit the Student by ID */
-    private static void studentEditById(Scanner scanner, UniversityService service){
+    /**
+     * Edit the Student by ID
+     */
+    private static void studentEditById(Scanner scanner, UniversityService service) {
         // NOT FINISHED METHOD
     }
 
-    /** Show all students */
-    private static void studentShowAll(UniversityService service){
+    /**
+     * Show all students
+     */
+    /*private static void studentShowAll(UniversityService service) {
         List<Student> result = service.getAllStudents();
         if (result.isEmpty()) {
             System.out.println("No students found");
@@ -485,11 +517,14 @@ public class Main {
             System.out.println(" --- Students ---");
             result.forEach(System.out::println);
         }
-    }
+    }*/
 
     //! ======= WORK WITH TEACHERS ===== //
-    /** Add new Teacher */
-    private static void teacherAddTeacher(Scanner scanner, UniversityService service){
+
+    /**
+     * Add new Teacher
+     */
+    private static void teacherAddTeacher(Scanner scanner, UniversityService service) {
         System.out.println("--- Add Teacher ---");
         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
         if (selectedFaculty == null) return;
@@ -505,16 +540,17 @@ public class Main {
         String position = InputUtils.readLine(scanner, "Position: ", false, true);
 
 
-
         // Save
-        Teacher t = new Teacher(name,surname,position,selectedDept);
-        service.addTeacher(name, surname, position,selectedDept);
+        Teacher t = new Teacher(name, surname, position, selectedDept);
+        service.addTeacher(name, surname, position, selectedDept);
         System.out.println("Teacher " + name + " " + surname +
                 " successfully added to department: " + selectedDept.getName());
     }
 
-    /** Delete the Teacher by name */
-    private static void teacherDeleteByName(Scanner scanner, UniversityService service){
+    /**
+     * Delete the Teacher by name
+     */
+    private static void teacherDeleteByName(Scanner scanner, UniversityService service) {
         System.out.print("Delete teacher by full name ");
         String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, true);
         List<Teacher> result = service.findTeachersByFullName(fullName);
@@ -526,23 +562,31 @@ public class Main {
     }
 
 
-    /** Delete the Teacher by ID */
-    private static void teacherDeleteById(Scanner scanner, UniversityService service){
+    /**
+     * Delete the Teacher by ID
+     */
+    private static void teacherDeleteById(Scanner scanner, UniversityService service) {
         // NOT FINISHED METHOD
     }
 
-    /** Edit the Teacher by name */
-    private static void teacherEditByName(Scanner scanner, UniversityService service){
+    /**
+     * Edit the Teacher by name
+     */
+    private static void teacherEditByName(Scanner scanner, UniversityService service) {
         // NOT FINISHED METHOD
     }
 
-    /** Edit the Teacher by ID */
-    private static void teacherEditById(Scanner scanner, UniversityService service){
+    /**
+     * Edit the Teacher by ID
+     */
+    private static void teacherEditById(Scanner scanner, UniversityService service) {
         // NOT FINISHED METHOD
     }
 
-    /** Show all teachers */
-    private static void teacherShowAll(UniversityService service){
+    /**
+     * Show all teachers
+     */
+    /*private static void teacherShowAll(UniversityService service) {
         List<Teacher> result = service.getAllTeachers();
         if (result.isEmpty()) {
             System.out.println("No teachers found");
@@ -550,23 +594,28 @@ public class Main {
             System.out.println(" --- Teachers ---");
             result.forEach(System.out::println);
         }
-    }
+    }*/
 
     //! ======= SEARCH ===== //
-    /** Search Student by full name */
-    private static void searchStudentByName(Scanner scanner, UniversityService service){
+
+    /**
+     * Search Student by full name
+     */
+    private static void searchStudentByName(Scanner scanner, UniversityService service) {
         String name = InputUtils.readLine(scanner, "Enter full name: ", false, true);
         List<Student> result = service.findStudentsByFullName(name);
         if (result.isEmpty()) {
             System.out.println("No students found with this name.");
         } else {
-            System.out.println(" --- Students found by name part: "+name+" ---");
+            System.out.println(" --- Students found by name part: " + name + " ---");
             result.forEach(System.out::println);
         }
     }
 
-    /** Search Student by group in specific Speciality */
-    private static void searchStudentByGroupSpecific(Scanner scanner, UniversityService service){
+    /**
+     * Search Student by group in specific Speciality
+     */
+    private static void searchStudentByGroupSpecific(Scanner scanner, UniversityService service) {
         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
         if (selectedFaculty == null) return;
 
@@ -585,8 +634,10 @@ public class Main {
         }
     }
 
-    /** Search Student by group in the whole Univercity */
-    private static void searchStudentByGroupEverywhere(Scanner scanner, UniversityService service){
+    /**
+     * Search Student by group in the whole Univercity
+     */
+    private static void searchStudentByGroupEverywhere(Scanner scanner, UniversityService service) {
         int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
 
         List<Student> results = service.findStudentsByGroup(groupNumber);
@@ -599,8 +650,10 @@ public class Main {
         }
     }
 
-    /** Search Student by course */
-    private static void searchStudentByCourse(Scanner scanner, UniversityService service){
+    /**
+     * Search Student by course
+     */
+    private static void searchStudentByCourse(Scanner scanner, UniversityService service) {
         int course = InputUtils.readInt(scanner, "Enter course number: ", 1, 6);
         List<Student> results = service.findStudentsByCourse(course);
         if (results.isEmpty()) {
@@ -611,26 +664,33 @@ public class Main {
         }
     }
 
-    /** Search Student by speciality */
-    private static void searchStudentBySpeciality(Scanner scanner, UniversityService service){
+    /**
+     * Search Student by speciality
+     */
+    private static void searchStudentBySpeciality(Scanner scanner, UniversityService service) {
         // NOT FINISHED
     }
 
-    /** Search Teacher by full name */
-    private static void searchTeacherByName(Scanner scanner, UniversityService service){
+    /**
+     * Search Teacher by full name
+     */
+    private static void searchTeacherByName(Scanner scanner, UniversityService service) {
         // NOT FINISHED
     }
 
-    /** Search Teacher by department */
-    private static void searchTeacherByDepartment(Scanner scanner, UniversityService service){
+    /**
+     * Search Teacher by department
+     */
+    private static void searchTeacherByDepartment(Scanner scanner, UniversityService service) {
         // NOT FINISHED
     }
 
-    /** Search Teacher by position */
-    private static void searchTeacherByPosition(Scanner scanner, UniversityService service){
+    /**
+     * Search Teacher by position
+     */
+    private static void searchTeacherByPosition(Scanner scanner, UniversityService service) {
         // NOT FINISHED
     }
-
 
 
     // * ===== METHODS HELPERS ===== * //
@@ -659,6 +719,7 @@ public class Main {
 
     /**
      * ? Speciality selection
+     *
      * @param scanner provided
      * @param faculty provided
      * @return Speciality
@@ -675,13 +736,16 @@ public class Main {
         }
         System.out.println("0. Cancel");
         int index = InputUtils.readInt(scanner, "> ", 0, specialities.size());
-        if (index == 0) {return null;}
-        return specialities.get(index-1);
+        if (index == 0) {
+            return null;
+        }
+        return specialities.get(index - 1);
     }
 
     /**
      * ? Department selection
-     * @param scanner provided
+     *
+     * @param scanner   provided
      * @param /*faculty provided
      * @return Department
      */
@@ -704,7 +768,6 @@ public class Main {
         if (index == 0) return null;
         return departments.get(index - 1);
     }*/
-
     private static <T extends NamedEntity> T selectEntity(Scanner scanner, List<T> entities, String entityName) {
         if (entities.isEmpty()) {
             System.out.println("No " + entityName + " available!");
@@ -718,5 +781,18 @@ public class Main {
 
         int index = InputUtils.readInt(scanner, "> ", 0, entities.size());
         return (index == 0) ? null : entities.get(index - 1);
+    }
+
+    private static <T extends NamedEntity> void showAllEntity(Scanner scanner, List<T> entities, String entityName) {
+        if (entities.isEmpty()) {
+            System.out.println("No entities found!");
+            return;
+        }else {
+            for (int i = 0; i < entities.size(); i++) {
+                System.out.println((i + 1) + ". " + entities.get(i));
+            }
+        }
+        System.out.println("\nPress Enter to return to the menu...");
+        scanner.nextLine();
     }
 }
