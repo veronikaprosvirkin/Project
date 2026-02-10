@@ -1,5 +1,5 @@
 
-public class Person {
+public class Person implements NamedEntity {
     private String name;
     private String surname;
     private String fullName;
@@ -10,7 +10,10 @@ public class Person {
         this.fullName = surname + " " + name;
     }
 
-    public String getName() {return name;}
+    @Override
+    public String getName() {
+        return this.fullName;
+    }
     public String getSurname() {return surname;}
     public String getFullName() {return fullName;}
 

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Faculty {
+public class Faculty implements NamedEntity{
     private String nameOfFaculty;
     private List<Speciality> speciality = new ArrayList<>();
     private List<Department> departments = new ArrayList<>();
@@ -18,6 +18,9 @@ public class Faculty {
         return departments;
     }
 
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
 
     public void setSpeciality(List<Speciality> specialities) {
         this.speciality = specialities;
@@ -26,6 +29,5 @@ public class Faculty {
     public String getName() { return nameOfFaculty; }
 
     public void setName(String newName) {
-        this.nameOfFaculty = newName;
     }
 }
