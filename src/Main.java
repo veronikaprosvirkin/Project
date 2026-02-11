@@ -269,7 +269,7 @@ public class Main {
      * Delete Faculty
      */
     private static void facultyManageExistingFacultyDelete(Scanner scanner, UniversityService service, Faculty selectedFacultyToDelete) {
-        System.out.print("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n)");
+        System.out.print("Are you sure you want to delete " + selectedFacultyToDelete.getName() + "? (y/n): ");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
             service.deleteFaculty(selectedFacultyToDelete);
             System.out.println("Faculty deleted successfully!");
