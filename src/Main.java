@@ -7,6 +7,7 @@ public class Main {
         StudentService studentService = new StudentService();
         TeacherService teacherService = new TeacherService();
         FacultyService facultyService = new FacultyService();
+        DepartmentService departmentService = new DepartmentService();
         Scanner scanner = new Scanner(System.in);
 
         // Creating few students
@@ -59,7 +60,7 @@ public class Main {
                     int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) { // add a new department
-                        departmentAddDepartment(scanner, universityService, facultyService);
+                        departmentAddDepartment(scanner, departmentService, facultyService);
                     } else if (action == 2) { // manage existing department
                         // Select Faculty and Department
                         Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculty");
@@ -76,9 +77,9 @@ public class Main {
                         int workWithDepartment = InputUtils.readInt(scanner, "> ", 0, 3);
 
                         if (workWithDepartment == 1) { // edit department name
-                            departmentRenameDepartment(scanner, universityService, selectedDept, selectedFaculty);
+                            departmentRenameDepartment(scanner, departmentService, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 2) { //delete department
-                            departmentDeleteDepartment(scanner, universityService, selectedDept, selectedFaculty);
+                            departmentDeleteDepartment(scanner, departmentService, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 3) { //show all teachers in the department
                             departmentShowTeachers(teacherService, selectedDept);
                         }
@@ -287,12 +288,12 @@ public class Main {
     /**
      * Add new Department
      */
-    private static void departmentAddDepartment(Scanner scanner, UniversityService universityService, FacultyService facultyService) {
+    private static void departmentAddDepartment(Scanner scanner, DepartmentService departmentService, FacultyService facultyService) {
         System.out.println("Choose faculty where department will be added:");
         Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculties");
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
-            universityService.addNewDepartment(name, selectedFaculty);
+            departmentService.addNewDepartment(name, selectedFaculty);
         } else {
             System.out.println("No faculties found. Please add a new one first.");
         }
@@ -301,18 +302,18 @@ public class Main {
     /**
      * Rename the Department
      */
-    private static void departmentRenameDepartment(Scanner scanner, UniversityService universityService, Department selectedDept, Faculty selectedFaculty) {
+    private static void departmentRenameDepartment(Scanner scanner, DepartmentService departmentService, Department selectedDept, Faculty selectedFaculty) {
         String editName = InputUtils.readLine(scanner, "Write new name for " + selectedDept.getName() + ": ", false, true);
-        universityService.editDepartmentName(selectedDept, editName, selectedFaculty);
+        departmentService.editDepartmentName(selectedDept, editName, selectedFaculty);
     }
 
     /**
      * Delete the Department
      */
-    private static void departmentDeleteDepartment(Scanner scanner, UniversityService universityService, Department selectedDept, Faculty selectedFaculty) {
+    private static void departmentDeleteDepartment(Scanner scanner, DepartmentService departmentService, Department selectedDept, Faculty selectedFaculty) {
         System.out.print("Are you sure you want ot delete " + selectedDept.getName() + "? (y/n): ");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
-            universityService.deleteDepartment(selectedDept, selectedFaculty);
+            departmentService.deleteDepartment(selectedDept, selectedFaculty);
             System.out.println("Department deleted successfully!");
         } else {
             System.out.println("Operation cancelled.");
