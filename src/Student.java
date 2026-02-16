@@ -23,7 +23,7 @@ public class Student extends Person {
     @Override
     public String toString() {
         return getFullName() + " | Course: " + course + " | Group: " + group +
-                " | Faculty: " + faculty + " | Spec: " + speciality;
+                " | Faculty: " + faculty + " | Spec: " + speciality.getName();
     }
 
     public void setCourse(int newCourse) {this.course = newCourse;}

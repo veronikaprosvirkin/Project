@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Speciality {
+public class Speciality implements NamedEntity {
     private String nameOfSpeciality;
     private List<Group> groups = new ArrayList<>();
 

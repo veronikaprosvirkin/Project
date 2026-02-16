@@ -1,26 +1,30 @@
 
-public class Person {
+public class Person implements NamedEntity {
     private String name;
     private String surname;
-    private String fullName;
 
     public Person(String name, String surname) {
         this.name = name;
         this.surname = surname;
-        this.fullName = surname + " " + name;
     }
 
-    public String getName() {return name;}
+    /**
+     * Builds the fullName of Person: surname + name
+     * @return full person's name
+     */
+    @Override
+    public String getName() {
+        return this.surname+" "+ this.name;
+    }
     public String getSurname() {return surname;}
-    public String getFullName() {return fullName;}
+    public String getOnlyName() {return this.name;}
+    public String getFullName() {return this.surname+" "+ this.name;}
 
     public void setSurname(String newSurname) {
         this.surname = newSurname;
-        this.fullName = newSurname + " " + name;
     }
 
     public void setName(String newName) {
         this.name = newName;
-        this.fullName = surname + " " + newName;
     }
 }

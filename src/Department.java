@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Department {
+public class Department implements NamedEntity {
     private String nameOfDepartment;
     private List<Teacher> teachers= new ArrayList<>();
 
