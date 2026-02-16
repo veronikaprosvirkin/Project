@@ -26,12 +26,12 @@ public class SpecialityService {
 
     public void editSpecialityName(Speciality speciality, String editName, Faculty faculty) {
         if (isNameDuplicate(faculty.getSpeciality(), editName, Speciality::getName)) {
-            System.out.println("Error: Department with name '" + editName + "' already exists on this faculty.");
+            System.out.println("Error: Speciality with name '" + editName + "' already exists on this faculty.");
             return;
         }
-
+        String oldName = speciality.getName();
         speciality.setName(editName);
-        System.out.println("Department name updated successfully to: " + editName);
+        System.out.println(oldName+" speciality name updated successfully to: " + speciality.getName());
     }
 
 

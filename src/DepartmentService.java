@@ -28,9 +28,9 @@ public class DepartmentService {
             System.out.println("Error: Department with name '" + editName + "' already exists on this faculty.");
             return;
         }
-
+        String oldName = dept.getName();
         dept.setName(editName);
-        System.out.println("Department name updated successfully to: " + editName);
+        System.out.println(oldName+" name updated successfully to: " + dept.getName());
     }
     private <T> boolean isNameDuplicate(Collection<T> list, String newName, java.util.function.Function<T, String> nameExtractor) {
         return list.stream()
