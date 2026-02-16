@@ -442,7 +442,7 @@ public class Main {
     /**
      * Delete the Student by ID
      */
-    private static void studentDeleteById(Scanner scanner, UniversityService service) {
+    private static void studentDeleteById(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED METHOD
     }
 
@@ -507,15 +507,15 @@ public class Main {
     /**
      * Edit the Student by ID
      */
-    private static void studentEditById(Scanner scanner, UniversityService service) {
+    private static void studentEditById(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED METHOD
     }
 
     /**
      * Show all students
      */
-    /*private static void studentShowAll(UniversityService service) {
-        List<Student> result = service.getAllStudents();
+    /*private static void studentShowAll(UniversityService universityService) {
+        List<Student> result = universityService.getAllStudents();
         if (result.isEmpty()) {
             System.out.println("No students found");
         } else {
@@ -570,29 +570,29 @@ public class Main {
     /**
      * Delete the Teacher by ID
      */
-    private static void teacherDeleteById(Scanner scanner, UniversityService service) {
+    private static void teacherDeleteById(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED METHOD
     }
 
     /**
      * Edit the Teacher by name
      */
-    private static void teacherEditByName(Scanner scanner, UniversityService service) {
+    private static void teacherEditByName(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED METHOD
     }
 
     /**
      * Edit the Teacher by ID
      */
-    private static void teacherEditById(Scanner scanner, UniversityService service) {
+    private static void teacherEditById(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED METHOD
     }
 
     /**
      * Show all teachers
      */
-    /*private static void teacherShowAll(UniversityService service) {
-        List<Teacher> result = service.getAllTeachers();
+    /*private static void teacherShowAll(UniversityService universityService) {
+        List<Teacher> result = universityService.getAllTeachers();
         if (result.isEmpty()) {
             System.out.println("No teachers found");
         } else {
@@ -679,21 +679,21 @@ public class Main {
     /**
      * Search Teacher by full name
      */
-    private static void searchTeacherByName(Scanner scanner, UniversityService service) {
+    private static void searchTeacherByName(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED
     }
 
     /**
      * Search Teacher by department
      */
-    private static void searchTeacherByDepartment(Scanner scanner, UniversityService service) {
+    private static void searchTeacherByDepartment(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED
     }
 
     /**
      * Search Teacher by position
      */
-    private static void searchTeacherByPosition(Scanner scanner, UniversityService service) {
+    private static void searchTeacherByPosition(Scanner scanner, UniversityService universityService) {
         // NOT FINISHED
     }
 
@@ -706,7 +706,7 @@ public class Main {
      * @param service provided
      * @return Faculty
      */
-   /* private static Faculty selectFaculty(Scanner scanner, UniversityService service) {
+   /* private static Faculty selectFaculty(Scanner scanner, UniversityService universityService) {
         List<Faculty> faculties = service.getFaculties();
         if (faculties.isEmpty()) {
             System.out.println("No faculties available!");
