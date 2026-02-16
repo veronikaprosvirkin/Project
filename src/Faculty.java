@@ -29,5 +29,6 @@ public class Faculty implements NamedEntity{
     public String getName() { return nameOfFaculty; }
 
     public void setName(String newName) {
+        this.nameOfFaculty = newName;
     }
 }

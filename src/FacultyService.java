@@ -14,7 +14,7 @@ public class FacultyService {
 
     private <T> boolean isNameDuplicate(Collection<T> list, String newName, T entityToExclude, java.util.function.Function<T, String> nameExtractor) {
         return list.stream()
-                .filter(item -> item != entityToExclude) // Игнорируем объект, который мы сейчас редактируем
+                .filter(item -> item != entityToExclude)
                 .anyMatch(item -> nameExtractor.apply(item).equalsIgnoreCase(newName));
     }
 
@@ -36,7 +36,8 @@ public class FacultyService {
             System.out.println("Error: Faculty with name '" + newName + "' already exists.");
             return;
         }
+        String oldName = faculty.getName();
         faculty.setName(newName);
-        System.out.println("Faculty name updated successfully to: " + newName);
+        System.out.println(oldName+" name updated successfully to: " + faculty.getName());
     }
 }
