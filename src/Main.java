@@ -8,6 +8,7 @@ public class Main {
         TeacherService teacherService = new TeacherService();
         FacultyService facultyService = new FacultyService();
         DepartmentService departmentService = new DepartmentService();
+        SpecialityService specialityService = new SpecialityService();
         Scanner scanner = new Scanner(System.in);
 
         // Creating few students
@@ -92,7 +93,7 @@ public class Main {
                     int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) {
-                        specialityAddSpeciality(scanner, universityService, facultyService);
+                        specialityAddSpeciality(scanner, specialityService, facultyService);
                     } else if (action == 2) {
                         // Select Faculty and Speciality
                         Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculty");
@@ -106,9 +107,9 @@ public class Main {
 
                         int workWithSpeciality = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (workWithSpeciality == 1) {
-                            specialityRenameSpeciality(scanner, universityService, selectedSpeciality, selectedFaculty);
+                            specialityRenameSpeciality(scanner, specialityService, selectedSpeciality, selectedFaculty);
                         } else if (workWithSpeciality == 2) {
-                            specialityDeleteSpeciality(scanner, universityService, selectedSpeciality, selectedFaculty);
+                            specialityDeleteSpeciality(scanner, specialityService, selectedSpeciality, selectedFaculty);
                         }
                     }
 
@@ -338,12 +339,12 @@ public class Main {
     /**
      * Add new Speciality
      */
-    private static void specialityAddSpeciality(Scanner scanner, UniversityService service, FacultyService facultyService) {
+    private static void specialityAddSpeciality(Scanner scanner, SpecialityService specialityService, FacultyService facultyService) {
         System.out.println("Choose faculty where speciality will be added:");
         Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculties");
         if (selectedFaculty != null) {
             String name = InputUtils.readLine(scanner, "Enter new Speciality name: ", false, true);
-            service.addNewSpeciality(name, selectedFaculty);
+            specialityService.addNewSpeciality(name, selectedFaculty);
         } else {
             System.out.println("No faculties found. Please add a new one first.");
         }
@@ -352,18 +353,18 @@ public class Main {
     /**
      * Rename the Speciality
      */
-    private static void specialityRenameSpeciality(Scanner scanner, UniversityService service, Speciality selectedSpeciality, Faculty selectedFaculty) {
+    private static void specialityRenameSpeciality(Scanner scanner, SpecialityService specialityService, Speciality selectedSpeciality, Faculty selectedFaculty) {
         String editName = InputUtils.readLine(scanner, "Write new name for " + selectedSpeciality.getName() + ": ", false, true);
-        service.editSpecialityName(selectedSpeciality, editName, selectedFaculty);
+        specialityService.editSpecialityName(selectedSpeciality, editName, selectedFaculty);
     }
 
     /**
      * Delete the Speciality
      */
-    private static void specialityDeleteSpeciality(Scanner scanner, UniversityService service, Speciality selectedSpeciality, Faculty selectedFaculty) {
+    private static void specialityDeleteSpeciality(Scanner scanner, SpecialityService specialityService, Speciality selectedSpeciality, Faculty selectedFaculty) {
         System.out.print("Are you sure you want ot delete " + selectedSpeciality.getName() + "? (y/n): ");
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
-            service.deleteSpeciality(selectedSpeciality, selectedFaculty);
+            specialityService.deleteSpeciality(selectedSpeciality, selectedFaculty);
             System.out.println("Speciality deleted successfully!");
         } else {
             System.out.println("Operation cancelled.");
