@@ -3,13 +3,14 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UniversityService service = new UniversityService();
+        UniversityService universityService = new UniversityService();
+        StudentService studentService = new StudentService();
         Scanner scanner = new Scanner(System.in);
 
         // Creating few students
-        service.addStudent("Zbyshek", "Tymekowskych", 1, 101);
-        service.addStudent("Irzek", "Zlotych", 1, 101);
-        service.addStudent("Irzek", "Tymekowskych", 2, 15);
+        studentService.addStudent("Zbyshek", "Tymekowskych", 1, 101);
+        studentService.addStudent("Irzek", "Zlotych", 1, 101);
+        studentService.addStudent("Irzek", "Tymekowskych", 2, 15);
 
         while (true) {
             System.out.println("\n--- DigiUni ---");
@@ -32,18 +33,18 @@ public class Main {
                     int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) {
-                        facultyAddFaculty(scanner, service);
+                        facultyAddFaculty(scanner, universityService);
                     } else if (action == 2) { //manage existing faculties
-                        Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculty");
+                        Faculty selectedFaculty = selectEntity(scanner, universityService.getFaculties(), "Faculty");
                         if (selectedFaculty == null) break;
                         System.out.println("1. Edit Faculty");
                         System.out.println("2. Delete Faculty");
                         System.out.println("0. Back");
                         int workWithFaculty = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (workWithFaculty == 1) { //edit faculty name
-                            facultyManageExistingFacultyRename(scanner, service, selectedFaculty);
+                            facultyManageExistingFacultyRename(scanner, universityService, selectedFaculty);
                         } else if (workWithFaculty == 2) { //delete faculty
-                            facultyManageExistingFacultyDelete(scanner, service, selectedFaculty);
+                            facultyManageExistingFacultyDelete(scanner, universityService, selectedFaculty);
                         }
                     }
                 }
@@ -56,10 +57,10 @@ public class Main {
                     int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) { // add a new department
-                        departmentAddDepartment(scanner, service);
+                        departmentAddDepartment(scanner, universityService);
                     } else if (action == 2) { // manage existing department
                         // Select Faculty and Department
-                        Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculty");
+                        Faculty selectedFaculty = selectEntity(scanner, universityService.getFaculties(), "Faculty");
                         if (selectedFaculty == null) break;
                         Department selectedDept = selectEntity(scanner, selectedFaculty.getDepartments(), "Department");
                         if (selectedDept == null) break;
@@ -73,11 +74,11 @@ public class Main {
                         int workWithDepartment = InputUtils.readInt(scanner, "> ", 0, 3);
 
                         if (workWithDepartment == 1) { // edit department name
-                            departmentRenameDepartment(scanner, service, selectedDept, selectedFaculty);
+                            departmentRenameDepartment(scanner, universityService, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 2) { //delete department
-                            departmentDeleteDepartment(scanner, service, selectedDept, selectedFaculty);
+                            departmentDeleteDepartment(scanner, universityService, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 3) { //show all teachers in the department
-                            departmentShowTeachers(service, selectedDept);
+                            departmentShowTeachers(universityService, selectedDept);
                         }
                     }
                 }
@@ -88,10 +89,10 @@ public class Main {
                     int action = InputUtils.readInt(scanner, "> ", 0, 2);
 
                     if (action == 1) {
-                        specialityAddSpeciality(scanner, service);
+                        specialityAddSpeciality(scanner, universityService);
                     } else if (action == 2) {
                         // Select Faculty and Speciality
-                        Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculty");
+                        Faculty selectedFaculty = selectEntity(scanner, universityService.getFaculties(), "Faculty");
                         if (selectedFaculty == null) break;
                         Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
                         if (selectedSpeciality == null) break;
@@ -102,9 +103,9 @@ public class Main {
 
                         int workWithSpeciality = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (workWithSpeciality == 1) {
-                            specialityRenameSpeciality(scanner, service, selectedSpeciality, selectedFaculty);
+                            specialityRenameSpeciality(scanner, universityService, selectedSpeciality, selectedFaculty);
                         } else if (workWithSpeciality == 2) {
-                            specialityDeleteSpeciality(scanner, service, selectedSpeciality, selectedFaculty);
+                            specialityDeleteSpeciality(scanner, universityService, selectedSpeciality, selectedFaculty);
                         }
                     }
 
@@ -119,7 +120,7 @@ public class Main {
                     int workWithStudent = InputUtils.readInt(scanner, "> ", 0, 4);
 
                     if (workWithStudent == 1) { //add student
-                        studentAddStudent(scanner, service);
+                        studentAddStudent(scanner, universityService, studentService);
                     } else if (workWithStudent == 2) { //delete student
                         System.out.println("--- Delete Student ---");
                         System.out.println("1. Delete by full name: ");
@@ -128,9 +129,9 @@ public class Main {
                         int deleteStudent = InputUtils.readInt(scanner, "> ", 0, 2);
 
                         if (deleteStudent == 1) {
-                            studentDeleteByName(scanner, service);
+                            studentDeleteByName(scanner, studentService);
                         } else if (deleteStudent == 2) {
-                            studentDeleteById(scanner, service);
+                            studentDeleteById(scanner, universityService);
                         }
 
                     } else if (workWithStudent == 3) { //edit student
@@ -140,14 +141,14 @@ public class Main {
                         System.out.println("0. Back");
                         int editStudent = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editStudent == 1) {
-                            studentEditByName(scanner, service);
+                            studentEditByName(scanner, studentService);
                         } else if (editStudent == 2) {
-                            studentEditById(scanner, service);
+                            studentEditById(scanner, universityService);
                         }
 
 
                     } else if (workWithStudent == 4) {
-                        List<Student> students = service.getAllStudents();//show all students
+                        List<Student> students = studentService.getAllStudents();//show all students
                         showAllEntity(scanner, students, "Students List");
                     }
 
@@ -161,7 +162,7 @@ public class Main {
                     int workWithTeacher = InputUtils.readInt(scanner, "> ", 0, 4);
 
                     if (workWithTeacher == 1) { //add teacher
-                        teacherAddTeacher(scanner, service);
+                        teacherAddTeacher(scanner, universityService);
                     } else if (workWithTeacher == 2) {
                         System.out.println(" --- Delete Teacher ---");
                         System.out.println("1. Delete by full name");
@@ -169,9 +170,9 @@ public class Main {
                         System.out.println("0. Cancel");
                         int deleteTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (deleteTeacher == 1) {
-                            teacherDeleteByName(scanner, service);
+                            teacherDeleteByName(scanner, universityService);
                         } else if (deleteTeacher == 2) {
-                            teacherDeleteById(scanner, service);
+                            teacherDeleteById(scanner, universityService);
                         }
 
                     } else if (workWithTeacher == 3) { //edit teacher
@@ -180,12 +181,12 @@ public class Main {
                         System.out.print("0. Back: ");
                         int editTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (editTeacher == 1) {
-                            teacherEditByName(scanner, service);
+                            teacherEditByName(scanner, universityService);
                         } else if (editTeacher == 2) {
-                            teacherEditById(scanner, service);
+                            teacherEditById(scanner, universityService);
                         }
                     } else if (workWithTeacher == 4) {//show all
-                        List<Teacher> teachers = service.getAllTeachers();
+                        List<Teacher> teachers = universityService.getAllTeachers();
                         showAllEntity(scanner, teachers, "Teachers List");
                     }
                 }
@@ -203,21 +204,21 @@ public class Main {
                         int searchBy = InputUtils.readInt(scanner, "> ", 0, 4);
 
                         if (searchBy == 1) { //by full name
-                            searchStudentByName(scanner, service);
+                            searchStudentByName(scanner, studentService);
                         } else if (searchBy == 2) { //by group number
                             System.out.println("1. Find in specific speciality");
                             System.out.println("2. Find in all university");
                             int type = InputUtils.readInt(scanner, "> ", 1, 2);
 
                             if (type == 1) {    // Search in specific speciality
-                                searchStudentByGroupSpecific(scanner, service);
+                                searchStudentByGroupSpecific(scanner, universityService, studentService);
                             } else {      // Search in all university
-                                searchStudentByGroupEverywhere(scanner, service);
+                                searchStudentByGroupEverywhere(scanner, studentService);
                             }
                         } else if (searchBy == 3) { //by course
-                            searchStudentByCourse(scanner, service);
+                            searchStudentByCourse(scanner, studentService);
                         } else if (searchBy == 4) { // by speciality
-                            searchStudentBySpeciality(scanner, service);
+                            searchStudentBySpeciality(scanner, studentService);
                         }
 
                     } else if (searchType == 2) { //Find Teacher
@@ -228,11 +229,11 @@ public class Main {
 
                         int searchBy = InputUtils.readInt(scanner, "> ", 0, 3);
                         if (searchBy == 1) {
-                            searchTeacherByName(scanner, service);
+                            searchTeacherByName(scanner, universityService);
                         } else if (searchBy == 2) {
-                            searchTeacherByDepartment(scanner, service);
+                            searchTeacherByDepartment(scanner, universityService);
                         } else if (searchBy == 3) {
-                            searchTeacherByPosition(scanner, service);
+                            searchTeacherByPosition(scanner, universityService);
                         }
                     }
 
@@ -371,9 +372,9 @@ public class Main {
     /**
      * Add new Student
      */
-    private static void studentAddStudent(Scanner scanner, UniversityService service) {
+    private static void studentAddStudent(Scanner scanner, UniversityService universityService, StudentService studentService) {
         System.out.println("--- Add Student ---");
-        Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
+        Faculty selectedFaculty = selectEntity(scanner, universityService.getFaculties(), "Faculties");
         if (selectedFaculty == null) return;
 
         // Select speciality
@@ -392,7 +393,7 @@ public class Main {
         Student s = new Student(name, surname, course, groupNumber,
                 selectedFaculty.getName(),
                 selectedSpeciality);
-        service.addStudentToSpeciality(s, selectedSpeciality, groupNumber);
+        studentService.addStudentToSpeciality(s, selectedSpeciality, groupNumber);
 
         System.out.println("Student " + s.getFullName() + " added to group " + groupNumber +
                 " in " + selectedSpeciality.getName());
@@ -401,9 +402,9 @@ public class Main {
     /**
      * Delete the Student by name
      */
-    private static void studentDeleteByName(Scanner scanner, UniversityService service) {
+    private static void studentDeleteByName(Scanner scanner, StudentService studentService) {
         String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, true);
-        List<Student> result = service.findStudentsByFullName(fullName);
+        List<Student> result = studentService.findStudentsByFullName(fullName);
 
         if (result.isEmpty()) {
             System.out.println("No students found with this name.");
@@ -427,7 +428,7 @@ public class Main {
             }
             System.out.print("Are you sure you want ot delete " + studentToProcess.getFullName() + "? (y/n): ");
             if (scanner.nextLine().toLowerCase().startsWith("y")) {
-                service.deleteStudent(studentToProcess, studentToProcess.getSpeciality());
+                studentService.deleteStudent(studentToProcess, studentToProcess.getSpeciality());
             } else {
                 System.out.println("Operation cancelled.");
             }
@@ -444,9 +445,9 @@ public class Main {
     /**
      * Edit the Student by name
      */
-    private static void studentEditByName(Scanner scanner, UniversityService service) {
+    private static void studentEditByName(Scanner scanner, StudentService studentService) {
         String fullName = InputUtils.readLine(scanner, "Enter full name part: ", false, true);
-        List<Student> result = service.findStudentsByFullName(fullName);
+        List<Student> result = studentService.findStudentsByFullName(fullName);
 
         if (result.isEmpty()) {
             System.out.println("No students found with this name.");
@@ -493,7 +494,7 @@ public class Main {
                 }
                 case 4 -> {
                     int newGroup = InputUtils.readInt(scanner, "Enter new group number: ", 1, Integer.MAX_VALUE);
-                    service.moveStudentToGroup(studentToProcess, newGroup);
+                    studentService.moveStudentToGroup(studentToProcess, newGroup);
                 }
             }
         }
@@ -601,9 +602,9 @@ public class Main {
     /**
      * Search Student by full name
      */
-    private static void searchStudentByName(Scanner scanner, UniversityService service) {
+    private static void searchStudentByName(Scanner scanner, StudentService studentService) {
         String name = InputUtils.readLine(scanner, "Enter full name: ", false, true);
-        List<Student> result = service.findStudentsByFullName(name);
+        List<Student> result = studentService.findStudentsByFullName(name);
         if (result.isEmpty()) {
             System.out.println("No students found with this name.");
         } else {
@@ -615,7 +616,7 @@ public class Main {
     /**
      * Search Student by group in specific Speciality
      */
-    private static void searchStudentByGroupSpecific(Scanner scanner, UniversityService service) {
+    private static void searchStudentByGroupSpecific(Scanner scanner, UniversityService service, StudentService studentService) {
         Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
         if (selectedFaculty == null) return;
 
@@ -624,7 +625,7 @@ public class Main {
 
         int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
 
-        List<Student> results = service.findStudentsInSpecialityByGroup(selectedSpeciality, groupNumber);
+        List<Student> results = studentService.findStudentsInSpecialityByGroup(selectedSpeciality, groupNumber);
 
         if (results.isEmpty()) {
             System.out.println("No students found in group " + groupNumber + " within " + selectedSpeciality.getName());
@@ -637,10 +638,10 @@ public class Main {
     /**
      * Search Student by group in the whole Univercity
      */
-    private static void searchStudentByGroupEverywhere(Scanner scanner, UniversityService service) {
+    private static void searchStudentByGroupEverywhere(Scanner scanner, StudentService studentService) {
         int groupNumber = InputUtils.readInt(scanner, "Enter Group number: ", 1, Integer.MAX_VALUE);
 
-        List<Student> results = service.findStudentsByGroup(groupNumber);
+        List<Student> results = studentService.findStudentsByGroup(groupNumber);
 
         if (results.isEmpty()) {
             System.out.println("No students found in group " + groupNumber + " in the whole university.");
@@ -653,9 +654,9 @@ public class Main {
     /**
      * Search Student by course
      */
-    private static void searchStudentByCourse(Scanner scanner, UniversityService service) {
+    private static void searchStudentByCourse(Scanner scanner, StudentService studentService) {
         int course = InputUtils.readInt(scanner, "Enter course number: ", 1, 6);
-        List<Student> results = service.findStudentsByCourse(course);
+        List<Student> results = studentService.findStudentsByCourse(course);
         if (results.isEmpty()) {
             System.out.println("No students found in course " + course + ".");
         } else {
@@ -667,7 +668,7 @@ public class Main {
     /**
      * Search Student by speciality
      */
-    private static void searchStudentBySpeciality(Scanner scanner, UniversityService service) {
+    private static void searchStudentBySpeciality(Scanner scanner, StudentService studentService) {
         // NOT FINISHED
     }
 
