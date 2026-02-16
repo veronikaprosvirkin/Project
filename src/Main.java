@@ -388,8 +388,8 @@ public class Main {
 
 
         // Student's info
-        String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false));
-        String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false));
+        String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false), true, false, false, false);
+        String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false), true, false, false, false);
         int course = InputUtils.readInt(scanner, "Enter Course (1-6): ", 1, 6);
         int groupNumber = InputUtils.readInt(scanner, "Enter Group: ", 1, Integer.MAX_VALUE);
 
@@ -483,12 +483,12 @@ public class Main {
 
             switch (fieldChoice) {
                 case 1 -> {
-                    String newSurname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new surname: ", false, false));
+                    String newSurname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new surname: ", false, false), true, false, false, false);
                     studentToProcess.setSurname(newSurname);
                     System.out.println("Surname updated!");
                 }
                 case 2 -> {
-                    String newName = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new name: ", false, false));
+                    String newName = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Enter new name: ", false, false), true, false, false, false);
                     studentToProcess.setName(newName);
                     System.out.println("Name updated!");
                 }
@@ -541,8 +541,8 @@ public class Main {
 
 
         // Teachers's info
-        String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false));
-        String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false));
+        String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false), true, false, false, false);
+        String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false), true, false, false, false);
         String position = InputUtils.readLine(scanner, "Position: ", false, true);
 
 

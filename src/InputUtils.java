@@ -54,8 +54,7 @@ public class InputUtils {
             }
 
             if (!specialSymbolsAllowed) {
-
-                if (line.chars().anyMatch(c -> !Character.isLetter(c))) {
+                if (line.chars().anyMatch(c -> !Character.isLetter(c) && !Character.isSpaceChar(c))) {
                     System.out.println("Error: Special symbols are not allowed!");
                     continue;
                 }
@@ -66,17 +65,41 @@ public class InputUtils {
     }
 
     /**
-     * ? Method that clears all spaces
+     * Method that clears all spaces
      * @param line before cleaning
+     * @param rmAll remove all spaces
+     * @param rmStart remove spaces at start
+     * @param rmEnd remove spaces at end
+     * @param rmMulti remove spaces that repeats
      * @return cleared line
      */
-    public static String removeSpaces(String line) {
-        String result = "";
-        for (int i = 0; i < line.length(); i++) {
-            if (!Character.isSpaceChar(line.charAt(i))) {
-                result += line.charAt(i);
+    public static String removeSpaces(String line, boolean rmAll, boolean rmStart, boolean rmEnd, boolean rmMulti) {
+        if (line == null || line.isEmpty()) return "";
+
+        if (rmAll) return line.replace(" ", "");
+
+        String result = line;
+
+        if (rmStart) {  result = result.replaceAll("^\\s+", "");    }
+
+        if (rmEnd)   {  result = result.replaceAll("\\s+$", "");    }
+
+        if (rmMulti) {
+            StringBuilder sb = new StringBuilder();
+            boolean spaceDetected = false;
+            for (int i = 0; i < result.length(); i++) {
+                char c = result.charAt(i);
+                if (!Character.isSpaceChar(c)) {
+                    sb.append(c);
+                    spaceDetected = false;
+                } else if (!spaceDetected) {
+                    sb.append(c);
+                    spaceDetected = true;
+                }
             }
+            return sb.toString();
         }
+
         return result;
     }
 }
