@@ -197,42 +197,11 @@ public class UniversityService {
         university.getFaculties().add(fssst);
     }
 
-    public List<Faculty> getFaculties() {
-        return university.getFaculties();
-    }
     public List<Department> getDepartments(Faculty faculty) {
         return faculty.getDepartments();
     }
 
-
-    //** * =====   WORK WITH TEACHERS  ===== * **/
-
-
-
-
     /** * =====   WORK WITH FACULTY  ===== * **/
-
-    public void addNewFaculty(String name) {
-        if (isNameDuplicate(university.getFaculties(), name, Faculty::getName)) {
-            System.out.println("Error: Faculty with name '" + name + "' already exists.");
-            return;
-        }
-        university.getFaculties().add(new Faculty(name));
-        System.out.println("Faculty added successfully.");
-    }
-
-    public void deleteFaculty(Faculty selectedFacultyToDelete) {
-        university.getFaculties().remove(selectedFacultyToDelete);
-    }
-
-    public void editFacultyName(Faculty faculty, String newName) {
-        if (isNameDuplicate(university.getFaculties(), newName, Faculty::getName)) {
-            System.out.println("Error: Faculty with name '" + newName + "' already exists.");
-            return;
-        }
-        faculty.setName(newName);
-        System.out.println("Faculty name updated successfully to: " + newName);
-    }
 
     /** * =====   WORK WITH DEPARTMENTS  ===== * **/
 
