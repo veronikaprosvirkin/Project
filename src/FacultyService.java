@@ -12,12 +12,14 @@ public class FacultyService {
         return university.getFaculties();
     }
 
-    private <T> boolean isNameDuplicate(Collection<T> list, String newName, java.util.function.Function<T, String> nameExtractor) {
-        return list.stream().anyMatch(item -> nameExtractor.apply(item).equalsIgnoreCase(newName));
+    private <T> boolean isNameDuplicate(Collection<T> list, String newName, T entityToExclude, java.util.function.Function<T, String> nameExtractor) {
+        return list.stream()
+                .filter(item -> item != entityToExclude) // Игнорируем объект, который мы сейчас редактируем
+                .anyMatch(item -> nameExtractor.apply(item).equalsIgnoreCase(newName));
     }
 
     public void addNewFaculty(String name) {
-        if (isNameDuplicate(university.getFaculties(), name, Faculty::getName)) {
+        if (isNameDuplicate(university.getFaculties(), name, null, Faculty::getName)) {
             System.out.println("Error: Faculty with name '" + name + "' already exists.");
             return;
         }
@@ -30,7 +32,7 @@ public class FacultyService {
     }
 
     public void editFacultyName(Faculty faculty, String newName) {
-        if (isNameDuplicate(university.getFaculties(), newName, Faculty::getName)) {
+        if (isNameDuplicate(university.getFaculties(), newName, faculty, Faculty::getName)) {
             System.out.println("Error: Faculty with name '" + newName + "' already exists.");
             return;
         }
