@@ -259,7 +259,8 @@ public class Main {
      * Add new Faculty
      */
     private static void facultyAddFaculty(Scanner scanner, FacultyService facultyService) {
-        String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
+        String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, false);
+        name = InputUtils.removeSpaces(name, false, true, true, true);
         facultyService.addNewFaculty(name);
     }
 
@@ -267,7 +268,8 @@ public class Main {
      * Rename Faculty
      */
     private static void facultyManageExistingFacultyRename(Scanner scanner, FacultyService facultyService, Faculty selectedFacultyToRename) {
-        String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, true);
+        String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, false);
+        newName = InputUtils.removeSpaces(newName, false, true, true, true);
         facultyService.editFacultyName(selectedFacultyToRename, newName);
     }
 
@@ -294,7 +296,8 @@ public class Main {
         System.out.println("Choose faculty where department will be added:");
         Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculties");
         if (selectedFaculty != null) {
-            String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, true);
+            String name = InputUtils.readLine(scanner, "Enter new Department name: ", false, false);
+            name = InputUtils.removeSpaces(name, false, true, true, true);
             departmentService.addNewDepartment(name, selectedFaculty);
         } else {
             System.out.println("No faculties found. Please add a new one first.");
@@ -305,7 +308,8 @@ public class Main {
      * Rename the Department
      */
     private static void departmentRenameDepartment(Scanner scanner, DepartmentService departmentService, Department selectedDept, Faculty selectedFaculty) {
-        String editName = InputUtils.readLine(scanner, "Write new name for " + selectedDept.getName() + ": ", false, true);
+        String editName = InputUtils.readLine(scanner, "Write new name for " + selectedDept.getName() + ": ", false, false);
+        editName = InputUtils.removeSpaces(editName, false, true, true, true);
         departmentService.editDepartmentName(selectedDept, editName, selectedFaculty);
     }
 
@@ -344,7 +348,8 @@ public class Main {
         System.out.println("Choose faculty where speciality will be added:");
         Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculties");
         if (selectedFaculty != null) {
-            String name = InputUtils.readLine(scanner, "Enter new Speciality name: ", false, true);
+            String name = InputUtils.readLine(scanner, "Enter new Speciality name: ", false, false);
+            name = InputUtils.removeSpaces(name, false, true, true, true);
             specialityService.addNewSpeciality(name, selectedFaculty);
         } else {
             System.out.println("No faculties found. Please add a new one first.");
@@ -355,7 +360,8 @@ public class Main {
      * Rename the Speciality
      */
     private static void specialityRenameSpeciality(Scanner scanner, SpecialityService specialityService, Speciality selectedSpeciality, Faculty selectedFaculty) {
-        String editName = InputUtils.readLine(scanner, "Write new name for " + selectedSpeciality.getName() + ": ", false, true);
+        String editName = InputUtils.readLine(scanner, "Write new name for " + selectedSpeciality.getName() + ": ", false, false);
+        editName = InputUtils.removeSpaces(editName, false, true, true, true);
         specialityService.editSpecialityName(selectedSpeciality, editName, selectedFaculty);
     }
 
@@ -408,7 +414,8 @@ public class Main {
      * Delete the Student by name
      */
     private static void studentDeleteByName(Scanner scanner, StudentService studentService) {
-        String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, true);
+        String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, false);
+        fullName = InputUtils.removeSpaces(fullName, false, true, true, true);
         List<Student> result = studentService.findStudentsByFullName(fullName);
 
         if (result.isEmpty()) {
@@ -451,7 +458,8 @@ public class Main {
      * Edit the Student by name
      */
     private static void studentEditByName(Scanner scanner, StudentService studentService) {
-        String fullName = InputUtils.readLine(scanner, "Enter full name part: ", false, true);
+        String fullName = InputUtils.readLine(scanner, "Enter full name part: ", false, false);
+        fullName = InputUtils.removeSpaces(fullName, false, true, true, true);
         List<Student> result = studentService.findStudentsByFullName(fullName);
 
         if (result.isEmpty()) {
@@ -544,6 +552,7 @@ public class Main {
         String name = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Name: ", false, false), true, false, false, false);
         String surname = InputUtils.removeSpaces(InputUtils.readLine(scanner, "Surname: ", false, false), true, false, false, false);
         String position = InputUtils.readLine(scanner, "Position: ", false, true);
+        position = InputUtils.removeSpaces(position, false, true, true, true);
 
 
         // Save
@@ -558,7 +567,8 @@ public class Main {
      */
     private static void teacherDeleteByName(Scanner scanner, TeacherService teacherService) {
         System.out.print("Delete teacher by full name ");
-        String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, true);
+        String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, false);
+        fullName = InputUtils.removeSpaces(fullName, false, true, true, true);
         List<Teacher> result = teacherService.findTeachersByFullName(fullName);
 
         if (!result.isEmpty()) {
@@ -608,7 +618,8 @@ public class Main {
      * Search Student by full name
      */
     private static void searchStudentByName(Scanner scanner, StudentService studentService) {
-        String name = InputUtils.readLine(scanner, "Enter full name: ", false, true);
+        String name = InputUtils.readLine(scanner, "Enter full name: ", false, false);
+        name = InputUtils.removeSpaces(name, false, true, true, true);
         List<Student> result = studentService.findStudentsByFullName(name);
         if (result.isEmpty()) {
             System.out.println("No students found with this name.");
