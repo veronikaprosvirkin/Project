@@ -2,12 +2,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherService {
+    private University university;
+
+    public TeacherService(University university) {
+        this.university = university;
+    }
     // Adding a teacher
     public void addTeacher(String name, String surname, String position, Department selectedDept) {
-        if (!UniversityService.getUniversity().getFaculties().isEmpty() &&
-                !UniversityService.getUniversity().getFaculties().get(0).getDepartments().isEmpty()) {
+        if (!university.getFaculties().isEmpty() &&
+                !university.getFaculties().get(0).getDepartments().isEmpty()) {
             // Deciding where to sign (first Faculty and first Department)
-            UniversityService.getUniversity().getFaculties().get(0)
+            university.getFaculties().get(0)
                     .getDepartments().get(0)
                     .getTeachers().add(new Teacher(name, surname, position, selectedDept));
         }
@@ -18,7 +23,7 @@ public class TeacherService {
     public List<Teacher> getAllTeachers() {
         List<Teacher> allTeachers = new ArrayList<>();
 
-        for (Faculty faculty : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty faculty : university.getFaculties()) {
             for (Department dept : faculty.getDepartments()) {
                 allTeachers.addAll(dept.getTeachers());
             }
@@ -33,7 +38,7 @@ public class TeacherService {
     public List<Teacher> findTeachersByFullName(String namePart) {
         List<Teacher> result = new ArrayList<>();
 
-        for (Faculty f : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty f : university.getFaculties()) {
             for (Department d : f.getDepartments()) {
                 for (Teacher t : d.getTeachers()) {
                     if (t.getFullName().toLowerCase().contains(namePart.toLowerCase())) {

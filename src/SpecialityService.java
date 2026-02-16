@@ -1,6 +1,12 @@
 import java.util.Collection;
 
 public class SpecialityService {
+    private University university;
+
+    public SpecialityService(University university) {
+        this.university = university;
+    }
+
     private <T> boolean isNameDuplicate(Collection<T> list, String newName, java.util.function.Function<T, String> nameExtractor) {
         return list.stream()
                 .anyMatch(item -> nameExtractor.apply(item).equalsIgnoreCase(newName));

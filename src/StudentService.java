@@ -2,11 +2,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentService {
-    public void addStudent(String name, String surname, int course, int groupNumber) {
-        if (!UniversityService.getUniversity().getFaculties().isEmpty() &&
-                !UniversityService.getUniversity().getFaculties().get(0).getSpeciality().isEmpty()) {
+    private University university;
 
-            Faculty defaultFaculty = UniversityService.getUniversity().getFaculties().get(0);
+    public StudentService(University university) {
+        this.university = university;
+    }
+
+    public void addStudent(String name, String surname, int course, int groupNumber) {
+        if (!university.getFaculties().isEmpty() &&
+                !university.getFaculties().get(0).getSpeciality().isEmpty()) {
+
+            Faculty defaultFaculty = university.getFaculties().get(0);
             Speciality defaultSpec = defaultFaculty.getSpeciality().get(0);
             Group targetGroup = null;
             for (Group g : defaultSpec.getGroups()) {
@@ -61,7 +67,7 @@ public class StudentService {
 
         Speciality studentSpec = null;
 
-        for (Faculty f : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty f : university.getFaculties()) {
             if (f.getName().equals(student.getFaculty())) {
                 for (Speciality s : f.getSpeciality()) {
                     if (s.getName().equals(student.getSpeciality().getName())) {
@@ -115,7 +121,7 @@ public class StudentService {
     public List<Student> getAllStudents() {
         List<Student> allStudents = new ArrayList<>();
 
-        for (Faculty faculty : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty faculty : university.getFaculties()) {
             for (Speciality spec : faculty.getSpeciality()) {
                 for (Group gro : spec.getGroups()) {
                     allStudents.addAll(gro.getStudents());
@@ -132,7 +138,7 @@ public class StudentService {
     public List<Student> findStudentsByFullName(String namePart) {
         List<Student> result = new ArrayList<>();
 
-        for (Faculty faculty : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty faculty : university.getFaculties()) {
             for (Speciality spec : faculty.getSpeciality()) {
                 for (Group gro : spec.getGroups()) {
                     for (Student s : gro.getStudents()) {
@@ -153,7 +159,7 @@ public class StudentService {
     // Search by surname
     public List<Student> findStudentsBySurname(String surname) {
         List<Student> result = new ArrayList<>();
-        for (Faculty faculty : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty faculty : university.getFaculties()) {
             for (Speciality spec : faculty.getSpeciality()) {
                 for (Group group : spec.getGroups()) {
                     for (Student s : group.getStudents()) {
@@ -170,7 +176,7 @@ public class StudentService {
     // Search by group
     public List<Student> findStudentsByGroup(int groupNumber) {
         List<Student> result = new ArrayList<>();
-        for (Faculty f : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty f : university.getFaculties()) {
             for (Speciality s : f.getSpeciality()) {
                 result.addAll(findStudentsInSpecialityByGroup(s, groupNumber));
             }
@@ -192,7 +198,7 @@ public class StudentService {
     public List<Student> findStudentsByCourse(int course) {
         List<Student> result = new ArrayList<>();
 
-        for (Faculty faculty : UniversityService.getUniversity().getFaculties()) {
+        for (Faculty faculty : university.getFaculties()) {
             for (Speciality spec : faculty.getSpeciality()) {
                 for (Group group : spec.getGroups()) {
                     for (Student s : group.getStudents()) {

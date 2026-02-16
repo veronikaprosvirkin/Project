@@ -2,6 +2,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class DepartmentService {
+    private University university;
+
+    public DepartmentService(University university) {
+        this.university = university;
+    }
     public List<Department> getDepartments(Faculty faculty) {
         return faculty.getDepartments();
     }

@@ -3,12 +3,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        UniversityService universityService = new UniversityService();
-        StudentService studentService = new StudentService();
-        TeacherService teacherService = new TeacherService();
-        FacultyService facultyService = new FacultyService();
-        DepartmentService departmentService = new DepartmentService();
-        SpecialityService specialityService = new SpecialityService();
+        University university = new University();
+        UniversityService universityService = new UniversityService(university);
+        StudentService studentService = new StudentService(university);
+        TeacherService teacherService = new TeacherService(university);
+        FacultyService facultyService = new FacultyService(university);
+        DepartmentService departmentService = new DepartmentService(university);
+        SpecialityService specialityService = new SpecialityService(university);
         Scanner scanner = new Scanner(System.in);
 
         // Creating few students

@@ -3,12 +3,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class UniversityService {
-    private static University university;
+    private University university;
 
-    public static University getUniversity() {return university;}
-
-    public UniversityService() {
-        university = new University();
+    public UniversityService(University university) {
+        this.university = university;
         initializeStructure();
     }
 
@@ -196,6 +194,4 @@ public class UniversityService {
 
         university.getFaculties().add(fssst);
     }
-
-    /** * =====   WORK WITH SPECIALITY  ===== * **/
 }
