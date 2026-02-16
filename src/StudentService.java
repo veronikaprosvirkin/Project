@@ -110,7 +110,7 @@ public class StudentService {
     }
 
 
-    /** ===== SEARCH ===== **/
+    //** ===== SEARCH ===== **/
     // search all students
     public List<Student> getAllStudents() {
         List<Student> allStudents = new ArrayList<>();

@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         UniversityService universityService = new UniversityService();
         StudentService studentService = new StudentService();
+        TeacherService teacherService = new TeacherService();
         Scanner scanner = new Scanner(System.in);
 
         // Creating few students
@@ -78,7 +79,7 @@ public class Main {
                         } else if (workWithDepartment == 2) { //delete department
                             departmentDeleteDepartment(scanner, universityService, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 3) { //show all teachers in the department
-                            departmentShowTeachers(universityService, selectedDept);
+                            departmentShowTeachers(teacherService, selectedDept);
                         }
                     }
                 }
@@ -162,7 +163,7 @@ public class Main {
                     int workWithTeacher = InputUtils.readInt(scanner, "> ", 0, 4);
 
                     if (workWithTeacher == 1) { //add teacher
-                        teacherAddTeacher(scanner, universityService);
+                        teacherAddTeacher(scanner, universityService, teacherService);
                     } else if (workWithTeacher == 2) {
                         System.out.println(" --- Delete Teacher ---");
                         System.out.println("1. Delete by full name");
@@ -170,7 +171,7 @@ public class Main {
                         System.out.println("0. Cancel");
                         int deleteTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
                         if (deleteTeacher == 1) {
-                            teacherDeleteByName(scanner, universityService);
+                            teacherDeleteByName(scanner, teacherService);
                         } else if (deleteTeacher == 2) {
                             teacherDeleteById(scanner, universityService);
                         }
@@ -186,7 +187,7 @@ public class Main {
                             teacherEditById(scanner, universityService);
                         }
                     } else if (workWithTeacher == 4) {//show all
-                        List<Teacher> teachers = universityService.getAllTeachers();
+                        List<Teacher> teachers = teacherService.getAllTeachers();
                         showAllEntity(scanner, teachers, "Teachers List");
                     }
                 }
@@ -320,8 +321,8 @@ public class Main {
     /**
      * Show all teachers in the Department
      */
-    private static void departmentShowTeachers(UniversityService service, Department selectedDept) {
-        List<Teacher> teachers = service.getTeachersByDepartment(selectedDept);
+    private static void departmentShowTeachers(TeacherService teacherService, Department selectedDept) {
+        List<Teacher> teachers = teacherService.getTeachersByDepartment(selectedDept);
         if (teachers.isEmpty()) {
             System.out.println("There are no teachers assigned to " + selectedDept.getName() + " yet.");
         } else {
@@ -525,9 +526,9 @@ public class Main {
     /**
      * Add new Teacher
      */
-    private static void teacherAddTeacher(Scanner scanner, UniversityService service) {
+    private static void teacherAddTeacher(Scanner scanner, UniversityService universityService, TeacherService teacherService) {
         System.out.println("--- Add Teacher ---");
-        Faculty selectedFaculty = selectEntity(scanner, service.getFaculties(), "Faculties");
+        Faculty selectedFaculty = selectEntity(scanner, universityService.getFaculties(), "Faculties");
         if (selectedFaculty == null) return;
 
         // Select Department
@@ -543,7 +544,7 @@ public class Main {
 
         // Save
         Teacher t = new Teacher(name, surname, position, selectedDept);
-        service.addTeacher(name, surname, position, selectedDept);
+        teacherService.addTeacher(name, surname, position, selectedDept);
         System.out.println("Teacher " + name + " " + surname +
                 " successfully added to department: " + selectedDept.getName());
     }
@@ -551,14 +552,14 @@ public class Main {
     /**
      * Delete the Teacher by name
      */
-    private static void teacherDeleteByName(Scanner scanner, UniversityService service) {
+    private static void teacherDeleteByName(Scanner scanner, TeacherService teacherService) {
         System.out.print("Delete teacher by full name ");
         String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, true);
-        List<Teacher> result = service.findTeachersByFullName(fullName);
+        List<Teacher> result = teacherService.findTeachersByFullName(fullName);
 
         if (!result.isEmpty()) {
             Teacher toDelete = result.get(0);
-            service.deleteTeacher(toDelete, toDelete.getDepartmentObject());
+            teacherService.deleteTeacher(toDelete, toDelete.getDepartmentObject());
         }
     }
 
