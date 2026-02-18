@@ -83,7 +83,7 @@ public class Main {
                         } else if (workWithDepartment == 2) { //delete department
                             departmentDeleteDepartment(scanner, departmentService, selectedDept, selectedFaculty);
                         } else if (workWithDepartment == 3) { //show all teachers in the department
-                            departmentShowTeachers(teacherService, selectedDept);
+                            departmentShowTeachers(teacherService, selectedDept, scanner);
                         }
                     }
                 }
@@ -262,6 +262,7 @@ public class Main {
         String name = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, false);
         name = InputUtils.removeSpaces(name, false, true, true, true);
         facultyService.addNewFaculty(name);
+        pause(scanner);
     }
 
     /**
@@ -271,6 +272,7 @@ public class Main {
         String newName = InputUtils.readLine(scanner, "Enter new Faculty name: ", false, false);
         newName = InputUtils.removeSpaces(newName, false, true, true, true);
         facultyService.editFacultyName(selectedFacultyToRename, newName);
+        pause(scanner);
     }
 
     /**
@@ -284,6 +286,7 @@ public class Main {
         } else {
             System.out.println("Operation cancelled.");
         }
+        pause(scanner);
     }
 
 
@@ -302,6 +305,7 @@ public class Main {
         } else {
             System.out.println("No faculties found. Please add a new one first.");
         }
+        pause(scanner);
     }
 
     /**
@@ -311,6 +315,8 @@ public class Main {
         String editName = InputUtils.readLine(scanner, "Write new name for " + selectedDept.getName() + ": ", false, false);
         editName = InputUtils.removeSpaces(editName, false, true, true, true);
         departmentService.editDepartmentName(selectedDept, editName, selectedFaculty);
+
+        pause(scanner);
     }
 
     /**
@@ -324,12 +330,13 @@ public class Main {
         } else {
             System.out.println("Operation cancelled.");
         }
+
     }
 
     /**
      * Show all teachers in the Department
      */
-    private static void departmentShowTeachers(TeacherService teacherService, Department selectedDept) {
+    private static void departmentShowTeachers(TeacherService teacherService, Department selectedDept, Scanner scanner) {
         List<Teacher> teachers = teacherService.getTeachersByDepartment(selectedDept);
         if (teachers.isEmpty()) {
             System.out.println("There are no teachers assigned to " + selectedDept.getName() + " yet.");
@@ -337,6 +344,7 @@ public class Main {
             System.out.println("\n--- Teachers in " + selectedDept.getName() + " ---");
             teachers.forEach(System.out::println);
         }
+        pause(scanner);
     }
 
     //! ======= WORK WITH SPECIALITY ===== //
@@ -354,6 +362,7 @@ public class Main {
         } else {
             System.out.println("No faculties found. Please add a new one first.");
         }
+        pause(scanner);
     }
 
     /**
@@ -363,6 +372,8 @@ public class Main {
         String editName = InputUtils.readLine(scanner, "Write new name for " + selectedSpeciality.getName() + ": ", false, false);
         editName = InputUtils.removeSpaces(editName, false, true, true, true);
         specialityService.editSpecialityName(selectedSpeciality, editName, selectedFaculty);
+
+        pause(scanner);
     }
 
     /**
@@ -376,6 +387,7 @@ public class Main {
         } else {
             System.out.println("Operation cancelled.");
         }
+        pause(scanner);
     }
 
     //! ======= WORK WITH STUDENTS ===== //
@@ -445,6 +457,7 @@ public class Main {
                 System.out.println("Operation cancelled.");
             }
         }
+        pause(scanner);
     }
 
     /**
@@ -560,6 +573,8 @@ public class Main {
         teacherService.addTeacher(name, surname, position, selectedDept);
         System.out.println("Teacher " + name + " " + surname +
                 " successfully added to department: " + selectedDept.getName());
+
+        pause(scanner);
     }
 
     /**
@@ -575,6 +590,7 @@ public class Main {
             Teacher toDelete = result.get(0);
             teacherService.deleteTeacher(toDelete, toDelete.getDepartmentObject());
         }
+        pause(scanner);
     }
 
 
@@ -627,6 +643,7 @@ public class Main {
             System.out.println(" --- Students found by name part: " + name + " ---");
             result.forEach(System.out::println);
         }
+        pause(scanner);
     }
 
     /**
@@ -649,6 +666,7 @@ public class Main {
             System.out.println(" --- Students in group " + groupNumber + " on " + selectedSpeciality.getName() + " ---");
             results.forEach(System.out::println);
         }
+        pause(scanner);
     }
 
     /**
@@ -665,6 +683,7 @@ public class Main {
             System.out.println(" --- Students in group " + groupNumber + " ---");
             results.forEach(System.out::println);
         }
+        pause(scanner);
     }
 
     /**
@@ -679,6 +698,7 @@ public class Main {
             System.out.println(" --- Students in course " + course + " ---");
             results.forEach(System.out::println);
         }
+        pause(scanner);
     }
 
     /**
@@ -698,9 +718,7 @@ public class Main {
             System.out.println(" --- Students in " + selectedSpeciality.getName() + " ---");
             result.forEach(System.out::println);
         }
-        System.out.println("\nPress Enter to return to the menu...");
-        scanner.nextLine();
-
+        pause(scanner);
 
     }
 
@@ -814,6 +832,7 @@ public class Main {
 
         int index = InputUtils.readInt(scanner, "> ", 0, entities.size());
         return (index == 0) ? null : entities.get(index - 1);
+
     }
 
     private static <T extends NamedEntity> void showAllEntity(Scanner scanner, List<T> entities, String entityName) {
@@ -825,6 +844,11 @@ public class Main {
                 System.out.println((i + 1) + ". " + entities.get(i));
             }
         }
+        pause(scanner);
+    }
+
+    // method for pause before going to the next menu
+    private static void pause(Scanner scanner){
         System.out.println("\nPress Enter to return to the menu...");
         scanner.nextLine();
     }
