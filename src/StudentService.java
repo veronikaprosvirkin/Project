@@ -213,4 +213,19 @@ public class StudentService {
         }
         return result;
     }
+
+    public List<Student> findStudentsBySpeciality(Speciality selectedSpeciality) {
+        List <Student> result =new ArrayList<>();
+
+        for (Faculty faculty : university.getFaculties()) {
+            for (Speciality spec : faculty.getSpeciality()) {
+                if (spec.equals(selectedSpeciality)) {
+                    for (Group group : spec.getGroups()) {
+                        result.addAll(group.getStudents());
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }

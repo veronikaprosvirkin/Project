@@ -223,7 +223,7 @@ public class Main {
                         } else if (searchBy == 3) { //by course
                             searchStudentByCourse(scanner, studentService);
                         } else if (searchBy == 4) { // by speciality
-                            searchStudentBySpeciality(scanner, studentService);
+                            searchStudentBySpeciality(scanner, studentService,facultyService);
                         }
 
                     } else if (searchType == 2) { //Find Teacher
@@ -684,8 +684,24 @@ public class Main {
     /**
      * Search Student by speciality
      */
-    private static void searchStudentBySpeciality(Scanner scanner, StudentService studentService) {
-        // NOT FINISHED
+    private static void searchStudentBySpeciality(Scanner scanner, StudentService studentService, FacultyService facultyService) {
+        Faculty selectedFaculty = selectEntity(scanner, facultyService.getFaculties(), "Faculties");
+        if (selectedFaculty == null) return;
+
+        Speciality selectedSpeciality = selectSpeciality(scanner, selectedFaculty);
+        if (selectedSpeciality == null) return;
+
+        List <Student> result = studentService.findStudentsBySpeciality(selectedSpeciality);
+        if (result.isEmpty()) {
+            System.out.println("No students found in " + selectedSpeciality.getName() + ".");
+        } else {
+            System.out.println(" --- Students in " + selectedSpeciality.getName() + " ---");
+            result.forEach(System.out::println);
+        }
+        System.out.println("\nPress Enter to return to the menu...");
+        scanner.nextLine();
+
+
     }
 
     /**
