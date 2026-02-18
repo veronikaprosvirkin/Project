@@ -605,7 +605,9 @@ public class Main {
      * Edit the Teacher by name
      */
     private static void teacherEditByName(Scanner scanner, UniversityService universityService) {
-        // NOT FINISHED METHOD
+        String fullName = InputUtils.readLine(scanner, "Enter full name part: ", false, false);
+        fullName = InputUtils.removeSpaces(fullName,false, true, true, true);
+        //to be continued
     }
 
     /**
@@ -846,6 +848,45 @@ public class Main {
         }
         pause(scanner);
     }
+
+    private static <T extends NamedEntity> void deleteEntity(Scanner scanner, List<T> entities, String entityName, java.util.function.Consumer<T> deleteAction) {
+        if (entities.isEmpty()) {
+            System.out.println("No " + entityName + " found!");
+            return;
+        }
+
+        T entityToProcess;
+        if (entities.size() > 1) {
+            System.out.println("Multiple " + entityName + " found. Please select one: ");
+            for (int i = 0; i < entities.size(); i++) {
+                System.out.println((i + 1) + ". " + entities.get(i).getDisplayInfo());
+            }
+            System.out.println("0. Cancel");
+
+            int index = InputUtils.readInt(scanner, "> ", 0, entities.size());
+
+            if (index == 0) {
+                System.out.println("Operation cancelled.");
+                return;
+            }
+            entityToProcess = entities.get(index - 1);
+        } else {
+            entityToProcess = entities.get(0);
+        }
+
+        if (scanner.hasNextLine()) scanner.nextLine();
+
+        System.out.println("Are you sure you want to delete: " + entityToProcess.getName() + "? (y/n): ");
+        System.out.println("Details: " + entityToProcess.getDisplayInfo());
+
+        if (scanner.nextLine().toLowerCase().startsWith("y")) {
+            deleteAction.accept(entityToProcess);
+            System.out.println(entityName + " deleted successfully.");
+        } else {
+            System.out.println("Operation cancelled.");
+        }
+    }
+
 
     // method for pause before going to the next menu
     private static void pause(Scanner scanner){

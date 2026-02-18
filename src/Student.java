@@ -26,5 +26,10 @@ public class Student extends Person {
                 " | Faculty: " + faculty + " | Spec: " + speciality.getName();
     }
 
+    @Override
+    public String getDisplayInfo(){
+        return toString();
+    }
+
     public void setCourse(int newCourse) {this.course = newCourse;}
 }

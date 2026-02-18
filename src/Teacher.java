@@ -14,6 +14,10 @@ class Teacher extends Person {
     public String toString() {
         return "Teacher: " + getFullName() + " | Position: " + position + " | Department: " + department.getName();
     }
+    @Override
+    public String getDisplayInfo(){
+        return toString();
+    }
 
     public Department getDepartmentObject() {
         return department;
