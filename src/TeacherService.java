@@ -67,4 +67,5 @@ public class TeacherService {
             System.out.println("Error: Teacher not found in this department.");
         }
     }
+
 }

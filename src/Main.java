@@ -127,24 +127,18 @@ public class Main {
                     if (workWithStudent == 1) { //add student
                         studentAddStudent(scanner, facultyService, studentService);
                     } else if (workWithStudent == 2) { //delete student
-                        System.out.println("--- Delete Student ---");
-                        System.out.println("1. Delete by full name: ");
-                        System.out.println("2. Delete by ID: ");
-                        System.out.println("0. Back: ");
-                        int deleteStudent = InputUtils.readInt(scanner, "> ", 0, 2);
-
+                        int deleteStudent = chooseDeleting(scanner);
                         if (deleteStudent == 1) {
-                            studentDeleteByName(scanner, studentService);
+                            String fullName = InputUtils.readLine(scanner, "Full name of student: ", false, false);
+                            fullName = InputUtils.removeSpaces(fullName, false, true, true, true);
+                            List<Student> result = studentService.findStudentsByFullName(fullName);
+                            deleteEntity(scanner, result, "Student", (student -> studentService.deleteStudent(student, student.getSpeciality())));
                         } else if (deleteStudent == 2) {
                             studentDeleteById(scanner, universityService);
                         }
 
                     } else if (workWithStudent == 3) { //edit student
-                        System.out.println("--- Edit Student ---");
-                        System.out.println("1. Edit by full name");
-                        System.out.println("2. Edit by ID");
-                        System.out.println("0. Back");
-                        int editStudent = InputUtils.readInt(scanner, "> ", 0, 2);
+                        int editStudent = chooseEditing(scanner);
                         if (editStudent == 1) {
                             studentEditByName(scanner, studentService);
                         } else if (editStudent == 2) {
@@ -168,23 +162,21 @@ public class Main {
 
                     if (workWithTeacher == 1) { //add teacher
                         teacherAddTeacher(scanner, facultyService, teacherService);
-                    } else if (workWithTeacher == 2) {
-                        System.out.println(" --- Delete Teacher ---");
-                        System.out.println("1. Delete by full name");
-                        System.out.println("2. Add by ID");
-                        System.out.println("0. Cancel");
-                        int deleteTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
+                    } else if (workWithTeacher == 2) { //delete teacher
+                        int deleteTeacher= chooseDeleting(scanner);
                         if (deleteTeacher == 1) {
-                            teacherDeleteByName(scanner, teacherService);
+                            System.out.print("Delete teacher by full name ");
+                            String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, false);
+                            fullName = InputUtils.removeSpaces(fullName, false, true, true, true);
+                            List<Teacher> result = teacherService.findTeachersByFullName(fullName);
+
+                            deleteEntity(scanner, result, "Teacher", (teacher -> teacherService.deleteTeacher(teacher, teacher.getDepartment()) ));
                         } else if (deleteTeacher == 2) {
                             teacherDeleteById(scanner, universityService);
                         }
 
                     } else if (workWithTeacher == 3) { //edit teacher
-                        System.out.print("1. Edit by full name: ");
-                        System.out.println("2. Edit by ID: ");
-                        System.out.print("0. Back: ");
-                        int editTeacher = InputUtils.readInt(scanner, "> ", 0, 2);
+                        int editTeacher = chooseEditing(scanner);
                         if (editTeacher == 1) {
                             teacherEditByName(scanner, universityService);
                         } else if (editTeacher == 2) {
@@ -249,6 +241,21 @@ public class Main {
                 default -> System.out.println("Invalid.");  //? Incorrect input
             }
         }
+    }
+    //
+    private static int chooseEditing(Scanner scanner) {
+        System.out.print("1. Edit by full name: ");
+        System.out.println("2. Edit by ID: ");
+        System.out.print("0. Back: ");
+        return InputUtils.readInt(scanner, "> ", 0, 2);
+    }
+
+    // * ===== METHODS FOR DELETING ENTITIES ===== * //
+    private static int chooseDeleting(Scanner scanner) {
+        System.out.println("1. Delete by full name");
+        System.out.println("2. Delete by ID");
+        System.out.println("0. Cancel");
+        return InputUtils.readInt(scanner, "> ", 0, 2);
     }
 
     // * ===== METHODS SEPARATED FOR EVERY ACTION ===== * //
@@ -580,18 +587,6 @@ public class Main {
     /**
      * Delete the Teacher by name
      */
-    private static void teacherDeleteByName(Scanner scanner, TeacherService teacherService) {
-        System.out.print("Delete teacher by full name ");
-        String fullName = InputUtils.readLine(scanner, "Full name of teacher: ", false, false);
-        fullName = InputUtils.removeSpaces(fullName, false, true, true, true);
-        List<Teacher> result = teacherService.findTeachersByFullName(fullName);
-
-        if (!result.isEmpty()) {
-            Teacher toDelete = result.get(0);
-            teacherService.deleteTeacher(toDelete, toDelete.getDepartmentObject());
-        }
-        pause(scanner);
-    }
 
 
     /**
@@ -850,8 +845,8 @@ public class Main {
     }
 
     private static <T extends NamedEntity> void deleteEntity(Scanner scanner, List<T> entities, String entityName, java.util.function.Consumer<T> deleteAction) {
+
         if (entities.isEmpty()) {
-            System.out.println("No " + entityName + " found!");
             return;
         }
 
@@ -874,17 +869,14 @@ public class Main {
             entityToProcess = entities.get(0);
         }
 
-        if (scanner.hasNextLine()) scanner.nextLine();
-
         System.out.println("Are you sure you want to delete: " + entityToProcess.getName() + "? (y/n): ");
-        System.out.println("Details: " + entityToProcess.getDisplayInfo());
 
         if (scanner.nextLine().toLowerCase().startsWith("y")) {
             deleteAction.accept(entityToProcess);
-            System.out.println(entityName + " deleted successfully.");
         } else {
             System.out.println("Operation cancelled.");
         }
+        pause(scanner);
     }
 
 

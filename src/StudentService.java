@@ -103,7 +103,6 @@ public class StudentService {
         for (Group group : speciality.getGroups()) {
             if (group.getStudents().remove(student)) {
                 removed = true;
-                System.out.println("Removed from group " + group.getGroupNumber());
                 break;
             }
         }

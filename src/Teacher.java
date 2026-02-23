@@ -19,7 +19,7 @@ class Teacher extends Person {
         return toString();
     }
 
-    public Department getDepartmentObject() {
+    public Department getDepartment() {
         return department;
     }
 }
