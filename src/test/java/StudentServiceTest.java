@@ -8,13 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StudentServiceTest {
     private StudentService studentService;
-    private University university;
+    private University university = new University();
     private Speciality speciality;
     private Faculty faculty;
 
     @BeforeEach
     void setUp() {
-        university = new University();
         studentService = new StudentService(university);
         faculty = new Faculty("Faculty of Computer Science");
         speciality = new Speciality("Software Engineering");
