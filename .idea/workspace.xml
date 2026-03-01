@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="116d7706-b12d-4072-9455-efbedcbbc26d" name="Changes" comment="Maven rebuilt">
+    <list default="true" id="116d7706-b12d-4072-9455-efbedcbbc26d" name="Changes" comment="Tests written for each method in StudentService">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/StudentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/StudentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/StudentServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/StudentServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/StudentServiceTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +93,7 @@
       <updated>1772192585535</updated>
       <workItem from="1772192586681" duration="1900000" />
       <workItem from="1772274263875" duration="33000" />
-      <workItem from="1772358423493" duration="1973000" />
+      <workItem from="1772358423493" duration="2710000" />
     </task>
     <task id="LOCAL-00001" summary="Maven rebuilt">
       <option name="closed" value="true" />
@@ -103,7 +103,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772192671153</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Tests written for each method in StudentService">
+      <option name="closed" value="true" />
+      <created>1772360836591</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1772360836591</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -122,6 +130,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Maven rebuilt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Maven rebuilt" />
+    <MESSAGE value="Tests written for each method in StudentService" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests written for each method in StudentService" />
   </component>
 </project>

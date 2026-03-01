@@ -65,7 +65,7 @@ class StudentServiceTest {
     // Test findStudentsByFullName method
     @Test
     void testFindStudentsByFullName() {
-        List<Student> found = studentService.findStudentsByFullName("Shevchenko Taras");
+        List<Student> found = studentService.findStudentsByFullName("Taras Shevchenko");
         assertTrue(found.contains(testStudent));
     }
 

@@ -136,12 +136,26 @@ public class StudentService {
     // Search by name
     public List<Student> findStudentsByFullName(String namePart) {
         List<Student> result = new ArrayList<>();
+        // Split by spaces
+        String[] searchParts = namePart.toLowerCase().split("\\s+");
 
         for (Faculty faculty : university.getFaculties()) {
             for (Speciality spec : faculty.getSpeciality()) {
                 for (Group gro : spec.getGroups()) {
                     for (Student s : gro.getStudents()) {
-                        if (s.getFullName().toLowerCase().contains(namePart.toLowerCase())) {
+                        String fullName = s.getFullName().toLowerCase();
+                        boolean matchesAll = true;
+
+                        // Check all parts
+                        for (String part : searchParts) {
+                            if (!fullName.contains(part)) {
+                                matchesAll = false;
+                                break;
+                            }
+                        }
+
+                        // Add if all parts match
+                        if (matchesAll) {
                             result.add(s);
                         }
                     }
