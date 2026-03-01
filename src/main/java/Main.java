@@ -1,7 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
-/*циртцмтос
-* апролджє*/
+
 
 
 public class Main {
